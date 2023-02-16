@@ -11,6 +11,8 @@ declare module '@vue/runtime-core' {
     404: typeof import('./src/components/error-page/404.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     Error403: typeof import('./src/components/error-page/error-403.vue')['default']
     Error404: typeof import('./src/components/error-page/error-404.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
