@@ -10,16 +10,16 @@ export default [
   {
     path: '/',
     redirect: '/index',
-    component: () => import('@/components/HelloWorld.vue'),
+    component: () => import('@/layout/index.vue'),
     children: [
       {
         path: '/index',
-        component: () => import('@/components/HelloWorld.vue'),
+        component: () => import('@/modules/myTest.vue'),
         meta: {
           title: '首页',
           requiresAuth: true
         }
-        // component: () => import('./view/list/index.vue')
+        // component: () => import('./view/list/app-page.vue')
       },
       {
         path: '/aa',
@@ -27,7 +27,7 @@ export default [
         meta: {
           title: '测试'
         }
-        // component: () => import('./view/list/index.vue')
+        // component: () => import('./view/list/app-page.vue')
       },
       {
         path: '/bb',
@@ -35,7 +35,7 @@ export default [
         meta: {
           title: '测试bb'
         }
-        // component: () => import('./view/list/index.vue')
+        // component: () => import('./view/list/app-page.vue')
       }
     ]
   }
