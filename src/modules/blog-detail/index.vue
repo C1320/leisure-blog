@@ -1,42 +1,26 @@
 <template>
-  <el-button @click="handleGetMd">
-    获取
-  </el-button>
-  <!--      <el-table-->
-  <!--        :data="tableData"-->
-  <!--        :height="height"-->
-  <!--      >-->
-  <!--        <el-table-column-->
-  <!--          prop="date"-->
-  <!--          label="Date"-->
-  <!--          width="140"-->
-  <!--        />-->
-  <!--        <el-table-column-->
-  <!--          prop="name"-->
-  <!--          label="Name"-->
-  <!--          width="120"-->
-  <!--        />-->
-  <!--        <el-table-column-->
-  <!--          prop="address"-->
-  <!--          label="Address"-->
-  <!--        />-->
-  <!--      </el-table>-->
-  <div>
-    <div
-      v-html="html"
-    />
-  </div>
+  <app-page>
+    <template #Main>
+      <el-button @click="handleGetMd">
+        获取
+      </el-button>
+      <div class="passage">
+        <div v-html="html" />
+      </div>
+    </template>
+  </app-page>
 </template>
 
 <script setup lang='ts'>
 import 'github-markdown-css';
+import './style.scss';
 
 import { ElMessage } from 'element-plus';
 import heightLight from 'highlight.js';
 import { marked } from 'marked';
 import { nextTick, ref } from 'vue';
 
-// import AppPage from '@/components/app-page/app-page.vue';
+import AppPage from '@/components/app-page/app-page.vue';
 import { getMd } from '@/modules/api';
 
 marked.setOptions({
@@ -76,18 +60,7 @@ const handleGetMd = () => {
     ElMessage.error('失败');
   });
 };
-
-const act = './README.md';
-const ht = marked(act);
-console.log(ht);
-// const item = {
-//   date: '2016-05-02',
-//   name: 'Tom',
-//   address: 'No. 189, Grove St, Los Angeles'
-// };
-// const tableData = ref(Array.from({ length: 50 }).fill(item));
+handleGetMd();
 </script>
-
-<style scoped lang='scss'>
-
+<style>
 </style>

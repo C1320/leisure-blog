@@ -3,12 +3,12 @@
     class="layout-container-demo"
     style="height: 100%"
   >
-    <el-scrollbar
-      style="height: 100%"
-      wrap-class="scrollbar-wrapper"
-    >
-      <co-menu />
-    </el-scrollbar>
+    <!--    <el-scrollbar-->
+    <!--      style="height: 100%"-->
+    <!--      wrap-class="scrollbar-wrapper"-->
+    <!--    >-->
+    <!--      <co-menu />-->
+    <!--    </el-scrollbar>-->
 
     <el-container style="height: 100%">
       <el-header id="page-header">
@@ -24,7 +24,7 @@
 
 // import { useCommon } from '@/hooks';
 
-import CoMenu from './co-aside/index.vue';
+// import CoMenu from './co-aside/index.vue';
 import CoHeader from './co-header/index.vue';
 import CoMain from './co-main/index.vue';
 
