@@ -4,8 +4,13 @@
       <el-button @click="handleGetMd">
         获取
       </el-button>
+      <!--      <div class="passage">-->
+      <!--        <div v-html="html" />-->
+      <!--      </div>-->
       <div class="passage">
-        <div v-html="html" />
+        <v-md-preview
+          :text="html"
+        />
       </div>
     </template>
   </app-page>
