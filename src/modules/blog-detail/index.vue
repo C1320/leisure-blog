@@ -8,7 +8,16 @@
       <!--        <div v-html="html" />-->
       <!--      </div>-->
       <div class="passage">
+        <div
+          v-for="anchor in titleList"
+          :key="anchor.title"
+          style="width: 200px;height: 300px"
+          :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
+        >
+          <a style="cursor: pointer">{{ anchor.title }}</a>
+        </div>
         <v-md-preview
+          ref="preview"
           :text="html"
         />
       </div>
@@ -28,6 +37,8 @@ import { nextTick, ref } from 'vue';
 import AppPage from '@/components/app-page/app-page.vue';
 import { getMd } from '@/modules/api';
 
+const preview = ref();
+
 marked.setOptions({
   renderer: new marked.Renderer(),
   highlight(code, lang) {
@@ -45,18 +56,37 @@ marked.setOptions({
 });
 
 const html = ref();
+const titleList = ref<any>([]);
 // 存放 toc 目录数据
 const tocData = ref<NodeListOf<Element>>();
 const initToc = () => {
-// 获取所有h1 h2 h3 标签
-  return document.querySelectorAll('h1, h2, h3');
+  console.log(8989, preview.value.$el);
+  const anchors = document.querySelectorAll('h1,h2,h3,h4,h5,h6');
+  console.log({ anchors });
+  const titles = Array.from(anchors).filter(title => !!title.innerText.trim());
+  console.log({ titles });
+
+  if (!titles.length) {
+    titleList.value = [];
+    return;
+  }
+
+  const hTags = Array.from(new Set(titles.map(title => title.tagName))).sort();
+
+  titleList.value = titles.map((el:any) => ({
+    title: el.innerText,
+    lineIndex: el.getAttribute('data-v-md-line'),
+    indent: hTags.indexOf(el.tagName)
+  }));
+  console.log(888, titleList.value);
+  // 获取所有h1 h2 h3 标签
 };
 
 const handleGetMd = () => {
   getMd().then(res => {
     html.value = marked(res.data);
     nextTick(() => {
-      tocData.value = initToc();
+      initToc();
       console.log(tocData.value);
     });
     console.log(77777, res);
