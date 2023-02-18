@@ -1,9 +1,6 @@
 <template>
   <app-page>
     <template #Main>
-      <el-button @click="handleGetMd">
-        获取
-      </el-button>
       <div class="passage">
         <title-toc
           :title-list="titleList"
@@ -20,7 +17,7 @@
 </template>
 
 <script setup lang='ts'>
-import 'highlight.js/styles/atom-one-dark.css';
+import 'highlight.js/styles/gradient-light.css';
 import './style.scss';
 
 import { ElMessage } from 'element-plus';
