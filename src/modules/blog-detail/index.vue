@@ -10,8 +10,9 @@
           @title-click="handleAnchor"
         />
         <v-md-preview
-          ref="preview"
+          ref="previewRef"
           :text="html"
+          @image-click="handlePreviewImage"
         />
       </div>
     </template>
@@ -26,13 +27,14 @@ import { ElMessage } from 'element-plus';
 import heightLight from 'highlight.js';
 import { marked } from 'marked';
 import { nextTick, onMounted, ref } from 'vue';
+import { preview } from 'vue3-preview-image';
 
 import AppPage from '@/components/app-page/app-page.vue';
 import { getMd } from '@/modules/api';
 
 import titleToc from './title-toc.vue';
 
-const preview = ref();
+const previewRef = ref();
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -57,7 +59,7 @@ const titleList = ref<any>([]);
 const initToc = () => {
   nextTick(() => {
     // 获取所有的标题
-    const anchors = preview.value.$el.querySelectorAll('h1,h2,h3');
+    const anchors = previewRef.value.$el.querySelectorAll('h1,h2,h3');
     const titleS = Array.from(anchors).filter(title => !!(title as any).innerText.trim());
     const hTags = Array.from(new Set(titleS.map((title: any) => title.tagName))).sort();
     titleList.value = titleS.map((el:any) => ({
@@ -101,6 +103,10 @@ const handleGetMd = () => {
     console.log(res);
     ElMessage.error('失败');
   });
+};
+const handlePreviewImage = (urlList: string[], index: number) => {
+  console.log(index);
+  preview(urlList[index], urlList, index);
 };
 onMounted(() => {
   handleGetMd();

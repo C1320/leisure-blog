@@ -33,5 +33,17 @@ const handleAnchorClick = (anchor: any) => {
 };
 </script>
 <style scoped lang='scss'>
+.navigation{
+  position: fixed;
+    top: 5rem;
+    bottom: 5rem;
+    right: 2rem;
+    width: 12rem;
+    padding-left: 0;
+    list-style: none;
+    font-size: 12px;
+    --border-color: #eaecef;
+    border-left: 1px solid var(--border-color);
+}
 
 </style>
