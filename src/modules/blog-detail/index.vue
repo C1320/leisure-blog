@@ -5,17 +5,13 @@
         获取
       </el-button>
       <div class="passage">
-        <div
-          v-for="anchor in titleList"
-          :key="anchor.title"
-          style="width: 200px;"
-          :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
-        >
-          <a style="cursor: pointer">{{ anchor.title }}</a>
-        </div>
-        <div
+        <title-toc
+          :title-list="titleList"
+          @title-click="handleAnchor"
+        />
+        <v-md-preview
           ref="preview"
-          v-html="html"
+          :text="html"
         />
       </div>
     </template>
@@ -29,10 +25,12 @@ import './style.scss';
 import { ElMessage } from 'element-plus';
 import heightLight from 'highlight.js';
 import { marked } from 'marked';
-import { nextTick, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 
 import AppPage from '@/components/app-page/app-page.vue';
 import { getMd } from '@/modules/api';
+
+import titleToc from './title-toc.vue';
 
 const preview = ref();
 
@@ -55,42 +53,58 @@ marked.setOptions({
 const html = ref();
 const titleList = ref<any>([]);
 // 存放 toc 目录数据
-const tocData = ref<NodeListOf<Element>>();
+// const tocData = ref<NodeListOf<Element>>();
 const initToc = () => {
-  const anchors = document.querySelectorAll('h1,h2,h3,h4,h5,h6');
-  const titles = Array.from(anchors).filter(title => !!title.innerText.trim());
-  console.log({ titles });
-
-  if (!titles.length) {
-    titleList.value = [];
-    return;
-  }
-
-  const hTags = Array.from(new Set(titles.map(title => title.tagName))).sort();
-
-  titleList.value = titles.map((el:any) => ({
-    title: el.innerText,
-    lineIndex: el.getAttribute('data-v-md-line'),
-    indent: hTags.indexOf(el.tagName)
-  }));
-  console.log(888, titleList.value);
-  // 获取所有h1 h2 h3 标签
+  nextTick(() => {
+    // 获取所有的标题
+    const anchors = preview.value.$el.querySelectorAll('h1,h2,h3');
+    const titleS = Array.from(anchors).filter(title => !!(title as any).innerText.trim());
+    const hTags = Array.from(new Set(titleS.map((title: any) => title.tagName))).sort();
+    titleList.value = titleS.map((el:any) => ({
+      title: el.innerText,
+      lineIndex: el.getAttribute('data-v-md-line'),
+      id: el.innerText,
+      indent: hTags.indexOf(el.tagName)
+    }));
+    console.log(123, titleList.value);
+  });
+  nextTick(() => {
+    // 改变样式
+    const arr = document.getElementById('co-per')?.getElementsByTagName('a') || [];
+    const div = document.getElementById('co-per')?.getElementsByTagName('div') || [];
+    for (let i = 0; i < arr.length; i++) {
+      if (i === 0) {
+        arr[i].style.color = 'var(--primary-color)';
+        arr[i].style.marginLeft = '20px';
+        div[i].style.borderLeft = '1px solid var(--primary-color)';
+        // div[i].style.padding = `10px 0 10px ${data.titles[0].indent * 10}px`;
+      } else {
+        arr[i].style.color = 'black';
+        div[i].style.borderLeft = '1px solid #eee';
+      }
+    }
+  });
 };
 
+const handleAnchor = (anchor:any) => {
+  const anchorElement = document.getElementById(anchor.id);
+  if (anchorElement) {
+    anchorElement.scrollIntoView();
+  }
+  // const heading = preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+};
 const handleGetMd = () => {
   getMd().then(res => {
     html.value = marked(res.data);
-    nextTick(() => {
-      initToc();
-      console.log(tocData.value);
-    });
-    console.log(77777, res);
+    initToc();
   }).catch(res => {
     console.log(res);
     ElMessage.error('失败');
   });
 };
-handleGetMd();
+onMounted(() => {
+  handleGetMd();
+});
 </script>
 <style>
 </style>

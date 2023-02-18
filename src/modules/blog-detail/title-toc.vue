@@ -1,0 +1,37 @@
+<template>
+  <div class="navigation">
+    <div
+      id="co-per"
+      class="navigation-content"
+    >
+      <div
+        v-for="(anchor, index) in props.titleList"
+        :key="index + 'art'"
+        :style="{ padding: `10px 0 10px ${(anchor as any).indent * 10}px` }"
+      >
+        <a
+          style="cursor: pointer; color: black; margin-left: 20px"
+          @click="handleAnchorClick(anchor)"
+        >{{
+          (anchor as any).title
+        }}</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang='ts' setup>
+const emits = defineEmits(['title-click']);
+const props = defineProps({
+  titleList: {
+    type: Array,
+    default: () => []
+  }
+});
+const handleAnchorClick = (anchor: any) => {
+  emits('title-click', anchor);
+};
+</script>
+<style scoped lang='scss'>
+
+</style>

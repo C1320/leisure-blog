@@ -6,9 +6,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import commonRouter from './common';
 import modulesRoutes from './modules/asyncRouter';
 
-console.log(modulesRoutes[0]);
 const routes: Array<any> = [...commonRouter, ...modulesRoutes];
-console.log({ routes });
 const router = createRouter({
   history: createWebHashHistory(),
   routes
