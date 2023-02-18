@@ -4,6 +4,7 @@ import '@kangc/v-md-editor/lib/style/preview.css';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 
 import highlightPlugin from '@highlightjs/vue-plugin';
+import createLineNumberPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import githubTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import ElementPlus from 'element-plus';
@@ -20,11 +21,13 @@ const app = createApp(App);
 VMdPreview.use(githubTheme, {
   Hljs: highlight
 });
+VMdPreview.use(createLineNumberPlugin());
+
 app
+  .use(setHighlightDirective)
   .use(ElementPlus, { size: 'small', zIndex: 3000 })
   .use(router)
   .use(usePa)
   .use(VMdPreview)
-  .use(setHighlightDirective)
   .use(highlightPlugin)
   .mount('#app');

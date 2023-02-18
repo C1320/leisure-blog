@@ -8,6 +8,7 @@
         />
         <v-md-preview
           ref="previewRef"
+          v-lineNumber
           :text="html"
           @image-click="handlePreviewImage"
         />
@@ -23,7 +24,7 @@ import './style.scss';
 import { ElMessage } from 'element-plus';
 import heightLight from 'highlight.js';
 import { marked } from 'marked';
-import { nextTick, onMounted, ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { preview } from 'vue3-preview-image';
 
 import AppPage from '@/components/app-page/app-page.vue';
@@ -105,9 +106,7 @@ const handlePreviewImage = (urlList: string[], index: number) => {
   console.log(index);
   preview(urlList[index], urlList, index);
 };
-onMounted(() => {
-  handleGetMd();
-});
+handleGetMd();
 </script>
 <style>
 </style>
