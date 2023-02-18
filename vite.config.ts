@@ -8,7 +8,7 @@ import eslintPlugin from 'vite-plugin-eslint';
 export default defineConfig({
   plugins: [vue(),
     eslintPlugin({
-      include: ['src/**/*.ts', 'src/**/*.vue', 'src/*.ts', 'src/*.vue'],
+      include: ['src/**/*.ts','src/**/*.js', 'src/**/*.vue', 'src/*.ts', 'src/*.vue'],
     }),
     AutoImport({
       resolvers: [ElementPlusResolver()],

@@ -1,15 +1,3 @@
----
-title: vite脚手架搭建react项目
-date: 2023-02-12 13:53:26
-author: 秋谨
-categories:
-  - react
-tags:
-  - react
-  - vite
-  - typescript
----
-
 # 创建
 
 运行 yarn create vite 然后根据提示输入项目名，然后依次选择 `react`、`react-ts` 即可创建一个 `React+TS` 项目。

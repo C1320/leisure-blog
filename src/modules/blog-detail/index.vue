@@ -4,21 +4,18 @@
       <el-button @click="handleGetMd">
         获取
       </el-button>
-      <!--      <div class="passage">-->
-      <!--        <div v-html="html" />-->
-      <!--      </div>-->
       <div class="passage">
         <div
           v-for="anchor in titleList"
           :key="anchor.title"
-          style="width: 200px;height: 300px"
+          style="width: 200px;"
           :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
         >
           <a style="cursor: pointer">{{ anchor.title }}</a>
         </div>
-        <v-md-preview
+        <div
           ref="preview"
-          :text="html"
+          v-html="html"
         />
       </div>
     </template>
@@ -26,7 +23,7 @@
 </template>
 
 <script setup lang='ts'>
-import 'github-markdown-css';
+import 'highlight.js/styles/atom-one-dark.css';
 import './style.scss';
 
 import { ElMessage } from 'element-plus';
@@ -60,9 +57,7 @@ const titleList = ref<any>([]);
 // 存放 toc 目录数据
 const tocData = ref<NodeListOf<Element>>();
 const initToc = () => {
-  console.log(8989, preview.value.$el);
   const anchors = document.querySelectorAll('h1,h2,h3,h4,h5,h6');
-  console.log({ anchors });
   const titles = Array.from(anchors).filter(title => !!title.innerText.trim());
   console.log({ titles });
 

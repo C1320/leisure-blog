@@ -45,7 +45,8 @@ module.exports = {
     sourceType: 'module',
     parser: '@typescript-eslint/parser',
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
+      js: true
     },
     project: ['./tsconfig.json'],
     extraFileExtensions: ['.vue']
@@ -57,6 +58,7 @@ module.exports = {
     'simple-import-sort'
   ],
   rules: {
+    'vue/no-v-html': 'off',
     'vue/multi-word-component-names': 'off',
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
