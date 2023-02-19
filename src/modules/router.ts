@@ -14,7 +14,7 @@ export default [
     children: [
       {
         path: '/index',
-        component: () => import('@/modules/blog-detail/index.vue'),
+        component: () => import('@/modules/home/index.vue'),
         meta: {
           title: '首页',
           requiresAuth: true

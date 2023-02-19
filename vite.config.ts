@@ -3,10 +3,13 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path';
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+// @ts-ignore
+import DefineOptions from 'unplugin-vue-define-options/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import eslintPlugin from 'vite-plugin-eslint';
 export default defineConfig({
   plugins: [vue(),
+    DefineOptions(),
     eslintPlugin({
       include: ['src/**/*.ts','src/**/*.js', 'src/**/*.vue', 'src/*.ts', 'src/*.vue'],
     }),
@@ -24,7 +27,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData:
-            '@use "@/styles/bass.scss";'
+            '@use "@/styles/bass.scss";' + 
+          '@use "@/styles/var.scss";' +
+          '@use "@/styles/font/icon.scss";'
       }
     }
   },
