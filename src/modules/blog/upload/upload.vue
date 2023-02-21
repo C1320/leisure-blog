@@ -2,12 +2,13 @@
   <el-upload
     ref="uploadRef"
     class="co-upload-item"
+    accept=".md"
     drag
     limit="1"
     :on-exceed="handleExceed"
     :on-success="handleResponse"
     :auto-upload="true"
-    action="http://192.168.1.10:8000/upload/file/"
+    action="''"
     multiple
     :before-upload="beforeUpload"
   >
@@ -16,6 +17,15 @@
     </el-icon>
     <div class="el-upload__text">
       请拖拽文件或者 <em>选择文件</em>上传
+      <el-progress
+        :text-inside="true"
+        :stroke-width="20"
+        :percentage="50"
+        stroke-linecap="square"
+        status="exception"
+      >
+        <span>Content</span>
+      </el-progress>
     </div>
     <template #tip>
       <div class="el-upload__tip">
