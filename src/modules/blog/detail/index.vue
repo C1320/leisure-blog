@@ -28,7 +28,7 @@ import { nextTick, ref } from 'vue';
 import { preview } from 'vue3-preview-image';
 
 import AppPage from '@/components/app-page/app-page.vue';
-import { getMd } from '@/modules/api';
+import { getMd } from '@/modules/blog/api';
 
 import titleToc from './title-toc.vue';
 

@@ -48,7 +48,8 @@ module.exports = {
       jsx: true,
       js: true
     },
-    project: ['./tsconfig.json'],
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json', './vite-config.ts'],
     extraFileExtensions: ['.vue']
   },
   plugins: [

@@ -12,22 +12,34 @@
             </div>
           </div>
           <div :class="ns.b('info-wrapper')">
-            5555
+            <el-button
+              type="primary"
+              @click="handleUpload"
+            >
+              上传
+            </el-button>
           </div>
         </div>
       </div>
+      <upload-file :visible="uploadVisible" />
     </template>
   </app-page>
 </template>
 
 <script lang="ts" setup>
 import { useNamespace } from '@co/utils';
+import { ref } from 'vue';
 
 import AppPage from '@/components/app-page/app-page.vue';
+import UploadFile from '@/modules/blog/upload/index.vue';
 import ListCard from '@/modules/home/card.vue';
 
 const ns = useNamespace('home');
 
+const uploadVisible = ref(false);
+const handleUpload = () => {
+  uploadVisible.value = true;
+};
 </script>
 
 <style scoped lang=scss>

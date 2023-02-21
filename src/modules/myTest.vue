@@ -37,7 +37,7 @@ import { marked } from 'marked';
 import { nextTick, ref } from 'vue';
 
 // import AppPage from '@/components/app-page/app-page.vue';
-import { getMd } from '@/modules/api';
+import { getMd } from '@/modules/blog/api';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
