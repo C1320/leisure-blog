@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <upload-file :visible="uploadVisible" />
+      <upload-file v-model:visible="uploadVisible" />
     </template>
   </app-page>
 </template>

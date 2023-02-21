@@ -2,10 +2,14 @@
 import '@/styles/global.scss';
 import '@kangc/v-md-editor/lib/style/preview.css';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import 'element-plus/dist/index.css';
 
 import highlightPlugin from '@highlightjs/vue-plugin';
+// @ts-ignore
 import createLineNumberPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+// @ts-ignore
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
+// @ts-ignore
 import githubTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import ElementPlus from 'element-plus';
 import highlight from 'highlight.js';
