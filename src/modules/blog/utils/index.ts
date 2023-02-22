@@ -32,7 +32,7 @@ const mergeFile = async (data: {}) => {
   console.log('开始文件合并');
   const res = await mergeUploadFile(data);
   console.log('后端接口合并文件 ===', res);
-  if (res.status === 200 && res.data.code) {
+  if (res.code === 200) {
     // 合并成功后，调整已上传的文件名称
     // state.editForm.inlineAppVersionModel.fileName = name;
   }
@@ -85,7 +85,7 @@ export const uploadFileSlice = async (file: File, progressCb:Function, currentCh
       progressCb(0);
       return;
     }
-    if (res.status === 200 && res.data.code === 200) {
+    if (res.code === 200) {
       // 这里为所有切片上传成功后进行的操作
       console.log('上传成功');
     }

@@ -1,17 +1,24 @@
 import axios from 'axios';
 
-const service = axios.create({
-  baseURL: 'http://192.168.1.10:8000/'
-});
+import { http } from '@/core/http';
 
+const service = axios.create();
 export const getMd = () => {
   return service.get('../vite-react.md');
 };
 export const uploadFile = (data: FormData) => {
-  return service.post('/fileChunk', data);
+  return http.post({
+    url: 'fileChunk',
+    data,
+    isLoading: false,
+    cache: false
+  });
 };
 export const mergeUploadFile = (data: {}) => {
-  return service.get('/fileChunk/merge', {
-    params: data
+  return http.get({
+    url: 'fileChunk/merge',
+    params: data,
+    isLoading: false,
+    cache: false
   });
 };
