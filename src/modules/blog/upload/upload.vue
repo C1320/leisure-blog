@@ -1,14 +1,14 @@
 <template>
   <el-upload
     ref="uploadRef"
+    v-model:file-list="selfFileList"
     class="co-upload-item"
     drag
     limit="1"
+    :disabled="!(0<progressStatus.progressBar<100)"
     :on-exceed="handleExceed"
-    :on-success="handleResponse"
-    :auto-upload="true"
+    :auto-upload="false"
     action=""
-    :http-request="handleUpload"
     multiple
     :before-upload="beforeUpload"
   >
@@ -16,21 +16,20 @@
       <upload-filled />
     </el-icon>
     <div class="el-upload__text">
-      请拖拽文件或者 <em>选择文件</em>上传
+      请拖拽文件或者 <em>选择文件</em>上传 markdown文件大小不超过10MB
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        markdown文件大小不超过10MB
         <el-progress
-          v-show="!showProgressBar"
+          v-show="progressStatus.progressBar>0"
           stroke-linecap="butt"
           :stroke-width="20"
-          :percentage="progressBar"
+          :percentage="progressStatus.progressBar"
           :color="customColorMethod"
-          :status="progressBar===100?'success':'exception'"
+          :status="progressStatus.progressBar===100?'success':'exception'"
         >
           <template #default="{ percentage }">
-            <span class="percentage-value">{{ percentage }}%</span>
+            <span class="percentage-value">{{ handleUploadStatus(percentage) }}</span>
           </template>
         </el-progress>
       </div>
@@ -42,27 +41,68 @@
 
 import { UploadFilled } from '@element-plus/icons-vue';
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
-import { ElMessage, genFileId, UploadRequestOptions } from 'element-plus';
-import { ref } from 'vue';
+import { ElMessage, genFileId, UploadUserFile } from 'element-plus';
+import { computed, PropType, ref } from 'vue';
 
-import { uploadFileSlice } from '@/modules/blog/utils';
+import { IUploadStatus } from '@/modules/blog/types/type';
 
 defineOptions({
   name: 'uploadFile'
 });
+// eslint-disable-next-line no-unused-vars
+const emits = defineEmits<{(_event: 'update:file-list', _type: UploadUserFile[]): void;
+}>();
+const uploadRef = ref<UploadInstance>();
+const props = defineProps({
+  fileList: {
+    type: Array as PropType<UploadUserFile[]>,
+    default: () => []
+  }
+});
+const selfFileList = computed({
+  get() {
+    return props.fileList;
+  },
+  set(v) {
+    emits('update:file-list', v);
+  }
+});
 const supportedFileTypes = ['md', 'zip'];
-const upload = ref<UploadInstance>();
-const progressBar = ref(0);
-const showProgressBar = ref(false);
+const progressStatus = ref({
+  progressBar: 0,
+  isMerge: false,
+  text: '',
+  success: false
+});
+const reset = () => {
+  progressStatus.value.progressBar = 0;
+  progressStatus.value.text = '';
+  progressStatus.value.isMerge = false;
+  progressStatus.value.success = false;
+};
+// const showProgressBar = ref(false);
 const handleExceed: UploadProps['onExceed'] = files => {
-  upload.value!.clearFiles();
+  uploadRef.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
-  upload.value!.handleStart(file);
+  uploadRef.value!.handleStart(file);
 };
-const updateProgress = (value: number) => {
-  progressBar.value = value;
+const updateProgress = (value: IUploadStatus) => {
+  progressStatus.value.progressBar = value.progressBar;
+  progressStatus.value.text = value.text;
+  progressStatus.value.isMerge = value.isMerge;
+  progressStatus.value.success = value.success;
 };
+const handleUploadStatus = (percentage: number) => {
+  if (!progressStatus.value.success && !progressStatus.value.isMerge) {
+    return `${percentage}%`;
+  }
+  return progressStatus.value.text;
+};
+defineExpose({
+  reset,
+  updateProgress
+});
 const customColorMethod = (percentage: number) => {
   if (percentage < 30) {
     return '#909399';
@@ -72,21 +112,8 @@ const customColorMethod = (percentage: number) => {
   }
   return '#67c23a';
 };
-const handleUpload = (params: UploadRequestOptions) => {
-  const { file } = params;
-  showProgressBar.value = true;
-  uploadFileSlice(file, updateProgress);
-};
-const handleResponse = (res:any) => {
-  if (res.code === 401) {
-    ElMessage.error('未登录');
-    console.log(res);
-    return false;
-  }
-  return true;
-};
+
 const beforeUpload = (file:File) => {
-  console.log({ file });
   const extension = file.name
     .substring(file.name.lastIndexOf('.') + 1)
     .toLowerCase();

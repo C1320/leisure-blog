@@ -1,8 +1,9 @@
-import { ElMessage } from 'element-plus';
+// import { ElMessage } from 'element-plus';
 // @ts-ignore
 import SparkMD5 from 'spark-md5';
 
 import { mergeUploadFile, uploadFile } from '@/modules/blog/api';
+import { IUploadStatus } from '@/modules/blog/types/type';
 
 /**
  * 获取文件md5
@@ -29,15 +30,10 @@ const getMD5 = (file: File): Promise<string> => new Promise((resolve, reject) =>
  * @param data
  */
 const mergeFile = async (data: {}) => {
-  console.log('开始文件合并');
-  const res = await mergeUploadFile(data);
-  console.log('后端接口合并文件 ===', res);
-  if (res.code === 200) {
-    // 合并成功后，调整已上传的文件名称
-    // state.editForm.inlineAppVersionModel.fileName = name;
-  }
+  await mergeUploadFile(data);
 };
-export const uploadFileSlice = async (file: File, progressCb:Function, currentChunk = 0) => {
+// eslint-disable-next-line no-unused-vars
+export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStatus)=>void, currentChunk = 0) => {
   // 文件名
   const { name, size } = file;
   // 分片大小-每一片多大
@@ -50,14 +46,25 @@ export const uploadFileSlice = async (file: File, progressCb:Function, currentCh
   // 如果 当前分片索引 大于 总分片数
   if (currentChunk >= chunkTotal) {
     // isAlive.value = false;
-    progressCb(100);
+    progressCb({
+      progressBar: 100,
+      isMerge: true,
+      text: '合并中',
+      success: false
+    });
     // // 合并文件
     await mergeFile({
       hash,
       name,
       totalChunks: chunkTotal
     });
-    // return;
+    progressCb({
+      progressBar: 100,
+      isMerge: true,
+      text: '上传成功',
+      success: true
+    });
+    return;
   }
   // 文件开始结束的位置
   const start = currentChunk * chunkSize;
@@ -77,18 +84,14 @@ export const uploadFileSlice = async (file: File, progressCb:Function, currentCh
   // 如果 当前分片索引 小于 总分片数
   if (currentChunk < chunkTotal) {
     // 进度条保留两位小数展示
-    progressCb(Number(((currentChunk / chunkTotal) * 100).toFixed(2)));
+    progressCb({
+      progressBar: Number(((currentChunk / chunkTotal) * 100).toFixed(2)),
+      isMerge: false,
+      text: '上传中',
+      success: false
+    });
     // 调用文件上传接口
-    const res = await uploadFile(formData);
-    if (res.status !== 200) {
-      ElMessage.error('上传失败');
-      progressCb(0);
-      return;
-    }
-    if (res.code === 200) {
-      // 这里为所有切片上传成功后进行的操作
-      console.log('上传成功');
-    }
+    await uploadFile(formData);
     currentChunk += 1;
     // 递归调用 分片函数
     await uploadFileSlice(file, progressCb, currentChunk);

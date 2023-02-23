@@ -51,8 +51,14 @@
             </el-option-group>
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <upload-file />
+        <el-form-item
+          label="上传文件"
+          prop="fileList"
+        >
+          <upload-file
+            ref="selfUploadRef"
+            v-model:file-list="uploadForm.fileList"
+          />
         </el-form-item>
       </div>
     </el-form>
@@ -61,6 +67,8 @@
         <el-button @click="handleVisible">取消</el-button>
         <el-button
           type="primary"
+          :loading="loading"
+          @click="handleUpload"
         >
           确定
         </el-button>
@@ -70,17 +78,21 @@
 </template>
 
 <script setup lang='ts'>
-import { FormInstance, FormRules } from 'element-plus';
+import { ElMessage, FormInstance, FormRules, UploadUserFile } from 'element-plus';
 import { computed, reactive, ref } from 'vue';
 
+import { uploadFile } from '@/modules/blog/api';
 import { BLOG_TAGS } from '@/modules/blog/constants';
 import UploadFile from '@/modules/blog/upload/upload.vue';
+import { uploadFileSlice } from '@/modules/blog/utils';
 
 defineOptions({
   name: 'uploadFile'
 });
 const emits = defineEmits(['update:visible']);
 const formRef = ref<FormInstance>();
+const loading = ref(false);
+const selfUploadRef = ref<null | InstanceType<typeof UploadFile>>(null);
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -89,7 +101,8 @@ const props = defineProps({
 });
 const uploadForm = reactive({
   title: '',
-  tagsList: []
+  tagsList: [],
+  fileList: [] as UploadUserFile[]
 });
 const validTags = (rule: any, value: any, callback: any) => {
   if (uploadForm.tagsList.length > 5) {
@@ -98,17 +111,40 @@ const validTags = (rule: any, value: any, callback: any) => {
     callback();
   }
 };
+const validFileList = (rule: any, value: any, callback: any) => {
+  if (value.length < 1) {
+    callback(new Error('请选择文件'));
+  } else {
+    callback();
+  }
+};
+const handleUpload = async () => {
+  loading.value = true;
+  await formRef.value?.validate();
+  const file = uploadForm.fileList.map(v => v.raw)[0];
+  uploadFileSlice(file!, selfUploadRef.value.updateProgress).finally(() => {
+    loading.value = false;
+  });
+};
 const rules = reactive<FormRules>({
   title: [
     { required: true, message: '请输入标题', trigger: 'blur' }
   ],
+  fileList: [{ required: true, message: '请选择文件', trigger: 'blur' },
+    { validator: validFileList, trigger: 'blur' }],
   tagsList: [
     { required: true, message: '请选择标签类型', trigger: 'blur' },
     { validator: validTags, trigger: 'blur' }
   ]
 });
 const isVisible = computed(() => props.visible);
-const handleVisible = () => {
+const handleVisible = async () => {
+  if (loading.value) {
+    ElMessage.error('文件上传中，不可操作');
+    return;
+  }
+  selfUploadRef.value.reset();
+  await formRef.value?.resetFields();
   emits('update:visible', false);
 };
 </script>
