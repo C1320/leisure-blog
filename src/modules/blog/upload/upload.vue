@@ -8,10 +8,11 @@
     :disabled="props.fileList.length>0"
     :on-exceed="handleExceed"
     :show-file-list="false"
-    :auto-upload="false"
+    :auto-upload="true"
     action=""
     multiple
     :before-upload="beforeUpload"
+    :http-request="handleUploadFile"
   >
     <el-icon class="el-icon--upload">
       <upload-filled />
@@ -56,10 +57,11 @@
 
 import { UploadFilled } from '@element-plus/icons-vue';
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
-import { ElMessage, genFileId, UploadUserFile } from 'element-plus';
+import { ElMessage, genFileId, UploadRequestOptions, UploadUserFile } from 'element-plus';
 import { computed, PropType, ref } from 'vue';
 
 import { IUploadStatus } from '@/modules/blog/types/type';
+import { uploadFileSlice } from '@/modules/blog/utils';
 
 defineOptions({
   name: 'uploadFile'
@@ -68,6 +70,7 @@ defineOptions({
 const emits = defineEmits<{(_event: 'update:file-list', _type: UploadUserFile[]): void;
 }>();
 const uploadRef = ref<UploadInstance>();
+const showProgress = ref(false);
 const props = defineProps({
   fileList: {
     type: Array as PropType<UploadUserFile[]>,
@@ -86,7 +89,7 @@ const selfFileList = computed({
     emits('update:file-list', v);
   }
 });
-const showProgress = computed(() => props.isShowProgress);
+// const showProgress = computed(() => props.isShowProgress);
 const supportedFileTypes = ['md', 'zip'];
 const progressStatus = ref({
   progressBar: 0,
@@ -101,6 +104,7 @@ const handleFileInfo = (file: UploadUserFile) => {
   return { size: _size, name };
 };
 const reset = () => {
+  showProgress.value = false;
   progressStatus.value.progressBar = 0;
   progressStatus.value.text = '';
   progressStatus.value.isMerge = false;
@@ -124,6 +128,11 @@ const handleUploadStatus = (percentage: number) => {
     return `${percentage}%`;
   }
   return progressStatus.value.text;
+};
+const handleUploadFile = (files: UploadRequestOptions) => {
+  const { file } = files;
+  showProgress.value = true;
+  uploadFileSlice(file, updateProgress);
 };
 const handleDeleteFile = (file:UploadUserFile) => {
   emits('update:file-list', props.fileList?.filter(item => item !== file));

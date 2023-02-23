@@ -50,6 +50,7 @@ export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStat
   // 分片总数
   const chunkTotal = Math.ceil(size / chunkSize);
   const formData = new FormData();
+  isCancel.value = false;
   // 如果 当前分片索引 大于 总分片数
   if (currentChunk >= chunkTotal && !isCancel.value) {
     // isAlive.value = false;
@@ -71,6 +72,7 @@ export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStat
       text: '上传成功',
       success: true
     });
+    isCancel.value = false;
     return;
   }
   // 文件开始结束的位置
