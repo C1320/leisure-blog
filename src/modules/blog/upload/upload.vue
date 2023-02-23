@@ -5,8 +5,9 @@
     class="co-upload-item"
     drag
     limit="1"
-    :disabled="!(0<progressStatus.progressBar<100)"
+    :disabled="props.fileList.length>0"
     :on-exceed="handleExceed"
+    :show-file-list="false"
     :auto-upload="false"
     action=""
     multiple
@@ -19,6 +20,20 @@
       请拖拽文件或者 <em>选择文件</em>上传 markdown文件大小不超过10MB
     </div>
     <template #tip>
+      <div v-show="props.fileList.length>0">
+        <div
+          v-for="item in props.fileList"
+          :key="item.raw.uid"
+          class="file-list"
+        >
+          <div>{{ handleFileInfo(item).name }}</div>
+          <div>{{ handleFileInfo(item).size }}MB</div>
+          <div @click="handleDeleteFile(item)">
+            <i class="cz-icon icon-cuowutishi" />
+          </div>
+        </div>
+      </div>
+
       <div class="el-upload__tip">
         <el-progress
           v-show="showProgress"
@@ -79,6 +94,12 @@ const progressStatus = ref({
   text: '',
   success: false
 });
+const handleFileInfo = (file: UploadUserFile) => {
+  if (!file?.raw) return { size: 0, name: '' };
+  const { size, name } = file.raw;
+  const _size = (size / (1024 * 1024)).toFixed(2);
+  return { size: _size, name };
+};
 const reset = () => {
   progressStatus.value.progressBar = 0;
   progressStatus.value.text = '';
@@ -103,6 +124,9 @@ const handleUploadStatus = (percentage: number) => {
     return `${percentage}%`;
   }
   return progressStatus.value.text;
+};
+const handleDeleteFile = (file:UploadUserFile) => {
+  emits('update:file-list', props.fileList?.filter(item => item !== file));
 };
 defineExpose({
   reset,
@@ -140,6 +164,19 @@ const beforeUpload = (file:File) => {
 <style scoped lang='scss'>
 .co-upload-item {
   width: 100%;
+}
+.file-list {
+  font-size: 0.5rem;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all .3s;
+  &:hover{
+    background-color: #f5f7fa;
+    cursor: pointer;
+  }
 }
 //:deep(.el-progress.is-exception .el-progress__text){
 //  position: absolute;
