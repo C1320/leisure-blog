@@ -7,4 +7,13 @@ const http = new RequestHttp({
   cache: true,
   isLoading: true
 });
-export { http };
+
+const uploadHttp = new RequestHttp({
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  },
+  cache: true,
+  isCancel: true,
+  isLoading: true
+});
+export { http, uploadHttp };

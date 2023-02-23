@@ -17,6 +17,7 @@ export interface IResult<T = any> {
   result?: T;
 }
 
+// @ts-ignore
 export interface IRequestParamsConfig extends AxiosRequestConfig {
   isCancel?: boolean;
   isLoading?: boolean;
@@ -24,6 +25,9 @@ export interface IRequestParamsConfig extends AxiosRequestConfig {
   loadingText?: string;
   isShowSuccessText?: boolean;
   cache?: boolean;
+  header?: {
+    'Content-Type':string;
+  };
 }
 
 // 请求响应参数，包含data
