@@ -1,7 +1,7 @@
 import { IRequestParamsConfig } from '@/core/http/type';
 
 const getPendingUrl = (config: IRequestParamsConfig): string => {
-  return [config.method, config.url].join('&');
+  return [config.method, config.url, config.params, config.data].join('&');
 };
 
 export class AxiosCanceler {

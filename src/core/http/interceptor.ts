@@ -65,8 +65,7 @@ class RequestHttp {
         if (newConfig.isLoading) {
           showLoading(newConfig.loadingText || '加载中....');
         }
-        config?.isCancel && axiosCanceler.removePending(config);
-        config?.isCancel && axiosCanceler.addPending(config);
+        config?.isCancel && axiosCanceler.addPending(newConfig);
         return newConfig;
       },
       (error: AxiosError) => {

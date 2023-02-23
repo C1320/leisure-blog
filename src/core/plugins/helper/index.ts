@@ -1,4 +1,5 @@
 import { firstLetterToUpperCase } from '@co/utils';
+import mitt from 'mitt';
 /**
  * 设置store唯一标识
  * @param name 标识名称
@@ -52,3 +53,7 @@ export const formatDate = (date: Date) => {
   timeArray.week = week;
   return timeArray;
 };
+/**
+ * bus总线
+ */
+export const $bus = mitt();

@@ -1,10 +1,17 @@
 // import { ElMessage } from 'element-plus';
 // @ts-ignore
 import SparkMD5 from 'spark-md5';
+import { ref } from 'vue';
 
+import { $bus } from '@/core/plugins/helper';
 import { mergeUploadFile, uploadFile } from '@/modules/blog/api';
 import { IUploadStatus } from '@/modules/blog/types/type';
 
+const isCancel = ref(false);
+$bus.on('cancel-upload', v => {
+  console.log(v);
+  typeof v === 'boolean' ? isCancel.value = v : true;
+});
 /**
  * 获取文件md5
  * @param file
@@ -44,7 +51,7 @@ export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStat
   const chunkTotal = Math.ceil(size / chunkSize);
   const formData = new FormData();
   // 如果 当前分片索引 大于 总分片数
-  if (currentChunk >= chunkTotal) {
+  if (currentChunk >= chunkTotal && !isCancel.value) {
     // isAlive.value = false;
     progressCb({
       progressBar: 100,
@@ -82,7 +89,7 @@ export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStat
   formData.append('chunkNumber', `${currentChunk}`);
   formData.append('totalChunks', `${chunkTotal}`);
   // 如果 当前分片索引 小于 总分片数
-  if (currentChunk < chunkTotal) {
+  if (currentChunk < chunkTotal && !isCancel.value) {
     // 进度条保留两位小数展示
     progressCb({
       progressBar: Number(((currentChunk / chunkTotal) * 100).toFixed(2)),

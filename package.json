@@ -27,6 +27,7 @@
     "html-loader": "^4.2.0",
     "markdown-loader": "^8.0.0",
     "marked": "^4.2.12",
+    "mitt": "^3.0.0",
     "pinia": "^2.0.30",
     "pinia-plugin-persist": "^1.0.0",
     "qs": "^6.11.0",

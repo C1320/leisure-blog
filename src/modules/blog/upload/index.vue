@@ -58,6 +58,7 @@
           <upload-file
             ref="selfUploadRef"
             v-model:file-list="uploadForm.fileList"
+            :is-show-progress="showProgress"
           />
         </el-form-item>
       </div>
@@ -78,9 +79,10 @@
 </template>
 
 <script setup lang='ts'>
-import { ElMessage, FormInstance, FormRules, UploadUserFile } from 'element-plus';
-import { computed, reactive, ref } from 'vue';
+import { FormInstance, FormRules, UploadUserFile } from 'element-plus';
+import { computed, onUnmounted, reactive, ref } from 'vue';
 
+import { $bus } from '@/core/plugins/helper';
 import { uploadFile } from '@/modules/blog/api';
 import { BLOG_TAGS } from '@/modules/blog/constants';
 import UploadFile from '@/modules/blog/upload/upload.vue';
@@ -92,6 +94,7 @@ defineOptions({
 const emits = defineEmits(['update:visible']);
 const formRef = ref<FormInstance>();
 const loading = ref(false);
+const showProgress = ref(false);
 const selfUploadRef = ref<null | InstanceType<typeof UploadFile>>(null);
 const props = defineProps({
   visible: {
@@ -119,9 +122,11 @@ const validFileList = (rule: any, value: any, callback: any) => {
   }
 };
 const handleUpload = async () => {
-  loading.value = true;
   await formRef.value?.validate();
+  loading.value = true;
+  $bus.emit('cancel-upload', false);
   const file = uploadForm.fileList.map(v => v.raw)[0];
+  showProgress.value = true;
   uploadFileSlice(file!, selfUploadRef.value.updateProgress).finally(() => {
     loading.value = false;
   });
@@ -139,14 +144,15 @@ const rules = reactive<FormRules>({
 });
 const isVisible = computed(() => props.visible);
 const handleVisible = async () => {
-  if (loading.value) {
-    ElMessage.error('文件上传中，不可操作');
-    return;
-  }
+  $bus.emit('cancel-upload', true);
   selfUploadRef.value.reset();
+  showProgress.value = false;
   await formRef.value?.resetFields();
   emits('update:visible', false);
 };
+onUnmounted(() => {
+  $bus.off('cancel-upload');
+});
 </script>
 
 <style scoped lang='scss'>

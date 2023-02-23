@@ -21,7 +21,7 @@
     <template #tip>
       <div class="el-upload__tip">
         <el-progress
-          v-show="progressStatus.progressBar>0"
+          v-show="showProgress"
           stroke-linecap="butt"
           :stroke-width="20"
           :percentage="progressStatus.progressBar"
@@ -57,6 +57,10 @@ const props = defineProps({
   fileList: {
     type: Array as PropType<UploadUserFile[]>,
     default: () => []
+  },
+  isShowProgress: {
+    type: Boolean,
+    default: false
   }
 });
 const selfFileList = computed({
@@ -67,6 +71,7 @@ const selfFileList = computed({
     emits('update:file-list', v);
   }
 });
+const showProgress = computed(() => props.isShowProgress);
 const supportedFileTypes = ['md', 'zip'];
 const progressStatus = ref({
   progressBar: 0,
@@ -108,7 +113,7 @@ const customColorMethod = (percentage: number) => {
     return '#909399';
   }
   if (percentage < 70) {
-    return '#e6a23c';
+    return '#409eff';
   }
   return '#67c23a';
 };
@@ -136,8 +141,8 @@ const beforeUpload = (file:File) => {
 .co-upload-item {
   width: 100%;
 }
-:deep(.el-progress.is-exception .el-progress__text){
-  position: absolute;
-  left: 50%;
-}
+//:deep(.el-progress.is-exception .el-progress__text){
+//  position: absolute;
+//  left: 50%;
+//}
 </style>
