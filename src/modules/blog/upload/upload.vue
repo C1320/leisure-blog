@@ -28,7 +28,7 @@
           class="file-list"
         >
           <div>{{ handleFileInfo(item).name }}</div>
-          <div>{{ handleFileInfo(item).size }}MB</div>
+          <div>{{ handleFileInfo(item).size }}</div>
           <div @click="handleDeleteFile(item)">
             <i class="cz-icon icon-cuowutishi" />
           </div>
@@ -55,6 +55,7 @@
 
 <script setup lang='ts'>
 
+import { formatBytes } from '@co/utils';
 import { UploadFilled } from '@element-plus/icons-vue';
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { ElMessage, genFileId, UploadRequestOptions, UploadUserFile } from 'element-plus';
@@ -100,8 +101,7 @@ const progressStatus = ref({
 const handleFileInfo = (file: UploadUserFile) => {
   if (!file?.raw) return { size: 0, name: '' };
   const { size, name } = file.raw;
-  const _size = (size / (1024 * 1024)).toFixed(2);
-  return { size: _size, name };
+  return { size: formatBytes(size, 2), name };
 };
 const reset = () => {
   showProgress.value = false;
