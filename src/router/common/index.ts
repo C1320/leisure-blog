@@ -7,7 +7,7 @@ export const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/common/index.vue'),
+    component: () => import('@/common/login/index.vue'),
     children: []
   },
   {

@@ -15,7 +15,7 @@ router.beforeEach((to, _from, next) => {
   NProgress.start();
   // 是否需要权限
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (localStorage.getItem('token')) {
+    if (!localStorage.getItem('token')) {
       next({
         path: '/login'
       });

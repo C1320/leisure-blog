@@ -29,9 +29,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData:
-            '@use "@/styles/bass.scss";'
-          + '@use "@/styles/var.scss";'
-          + '@use "@/styles/font/icon.scss";'
+            '@import "@/styles/bass.scss";'
+          + '@import "@/styles/var.scss";'
+          + '@import "@/styles/font/icon.scss";'
       }
     }
   },

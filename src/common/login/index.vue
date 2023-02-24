@@ -1,11 +1,3 @@
-<!--
- * @Descripttion:
- * @version:
- * @Author: 十三
- * @Date: 2022-12-22 15:15:59
- * @LastEditors: 十三
- * @LastEditTime: 2022-12-28 14:35:29
--->
 <template>
   <div :class="[ns.b()]">
     <div :class="[ns.b('plane')]">
@@ -130,7 +122,7 @@ import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { SM4EnCrypto } from '@/core/plugins/crypt';
+// import { SM4EnCrypto } from '@/core/plugins/crypt';
 import { useUserAccountStore } from '@/hooks';
 
 import { login } from './api';
@@ -182,19 +174,17 @@ const rules = reactive({
 
 const handleLogin = async () => {
   const res = await login({
-    login: SM4EnCrypto(
-      JSON.stringify({
-        name: ruleForm.account,
-        password: ruleForm.password
-      })
-    )
+    login: JSON.stringify({
+      name: ruleForm.account,
+      password: ruleForm.password
+    })
   });
   userAccountStore.setUserInfo({
-    name: res.result?.name!,
-    userName: res.result?.username!,
+    name: res?.name!,
+    userName: res?.username!,
     isLogin: true
   });
-  window.localStorage.setItem('token', JSON.stringify(res.result));
+  window.localStorage.setItem('token', JSON.stringify(res));
   await router.replace('/index');
 };
 const submitForm = (formEl: FormInstance | undefined) => {
