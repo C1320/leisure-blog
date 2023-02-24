@@ -11,6 +11,12 @@ export const routes = [
     children: []
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/common/register/index.vue'),
+    children: []
+  },
+  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/components/error-page/error-404.vue'),

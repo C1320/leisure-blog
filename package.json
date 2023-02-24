@@ -25,6 +25,8 @@
     "github-markdown-css": "^5.2.0",
     "highlight.js": "^11.7.0",
     "html-loader": "^4.2.0",
+    "js-cookie": "^3.0.1",
+    "live2d-widget": "^3.1.4",
     "markdown-loader": "^8.0.0",
     "marked": "^4.2.12",
     "mitt": "^3.0.0",
