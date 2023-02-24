@@ -1,17 +1,13 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { ElMessage } from 'element-plus';
-// import qs from 'qs';
-// import { getTokenCookie } from '@/core/auth';
-import { useRouter } from 'vue-router';
 
+// import { getTokenCookie } from '@/core/auth';
 import { AxiosCanceler } from '@/core/http/cancelRequest';
 
 // import { useUserAccountStore } from '@/hooks';
 import { closeLoading, messageTip, showLoading } from './handleRequest';
-import { IRequestParamsConfig, IResponse, IResult as IResponseResult } from './type';
+import { IRequestParamsConfig, IResponse } from './type';
 
-// const userAccountStore = useUserAccountStore();
-const router = useRouter();
 const baseConfig = {
   // 默认地址
   // baseURL: 'http://43.138.188.22:13209/api/v3',
@@ -88,7 +84,7 @@ class RequestHttp {
         if (data.code !== 200) {
           if (data.code === 432) { // 登录过期或令牌无效
             messageTip('登录已过期或令牌无效');
-            router.replace('/login').then();
+            window.history.replaceState(null, '', '/login');
           } else {
             messageTip(data.msg || '请求失败');
           }
@@ -115,21 +111,22 @@ class RequestHttp {
   }
 
   // 常用方法封装
-  async get<T>(params: IRequestParamsConfig): Promise<IResponseResult<T>> {
-    return this.#service.get(params.url!, params);
+  async get<T>(params: IRequestParamsConfig): Promise<T> {
+    const res = await this.#service.get(params.url!, params);
+    return res.data;
   }
 
-  async post<T>(params: IRequestParamsConfig): Promise<IResponseResult<T>> {
+  async post<T>(params: IRequestParamsConfig): Promise<T> {
     const res = await this.#service.post(params.url!, params.data, params);
     return res.data;
   }
 
-  async put<T>(params: IRequestParamsConfig): Promise<IResponseResult<T>> {
+  async put<T>(params: IRequestParamsConfig): Promise<T> {
     const res = await this.#service.put(params.url!, params);
     return res.data;
   }
 
-  async delete<T>(params: IRequestParamsConfig): Promise<IResponseResult<T>> {
+  async delete<T>(params: IRequestParamsConfig): Promise<T> {
     const res = await this.#service.delete(params.url!, params);
     return res.data;
   }

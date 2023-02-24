@@ -1,11 +1,11 @@
 <template>
   <el-upload
     ref="uploadRef"
-    v-model:file-list="selfFileList"
+    v-model:file-list="fileList"
     class="co-upload-item"
     drag
-    limit="1"
-    :disabled="props.fileList.length>0"
+    :limit="1"
+    :disabled="fileList.length>0"
     :on-exceed="handleExceed"
     :show-file-list="false"
     :auto-upload="true"
@@ -21,10 +21,10 @@
       请拖拽文件或者 <em>选择文件</em>上传 markdown文件大小不超过10MB
     </div>
     <template #tip>
-      <div v-show="props.fileList.length>0">
+      <div v-show="fileList.length>0">
         <div
-          v-for="item in props.fileList"
-          :key="item.raw.uid"
+          v-for="item in fileList"
+          :key="item.uid"
           class="file-list"
         >
           <div>{{ handleFileInfo(item).name }}</div>
@@ -59,22 +59,23 @@ import { formatBytes } from '@co/utils';
 import { UploadFilled } from '@element-plus/icons-vue';
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { ElMessage, genFileId, UploadRequestOptions, UploadUserFile } from 'element-plus';
-import { computed, PropType, ref } from 'vue';
+import { PropType, ref } from 'vue';
 
+import { uploadFileSlice } from '@/core/http/upload';
 import { IUploadStatus } from '@/modules/blog/types/type';
-import { uploadFileSlice } from '@/modules/blog/utils';
 
 defineOptions({
   name: 'uploadFile'
 });
 // eslint-disable-next-line no-unused-vars
-const emits = defineEmits<{(_event: 'update:file-list', _type: UploadUserFile[]): void;
+const emits = defineEmits<{(_event: 'update:file-url', _type: string[]): void;
 }>();
 const uploadRef = ref<UploadInstance>();
 const showProgress = ref(false);
-const props = defineProps({
-  fileList: {
-    type: Array as PropType<UploadUserFile[]>,
+const fileList = ref<UploadUserFile[]>([]);
+defineProps({
+  fileUrl: {
+    type: Array as PropType<string[]>,
     default: () => []
   },
   isShowProgress: {
@@ -82,15 +83,7 @@ const props = defineProps({
     default: false
   }
 });
-const selfFileList = computed({
-  get() {
-    return props.fileList;
-  },
-  set(v) {
-    emits('update:file-list', v);
-  }
-});
-// const showProgress = computed(() => props.isShowProgress);
+
 const supportedFileTypes = ['md', 'zip'];
 const progressStatus = ref({
   progressBar: 0,
@@ -103,14 +96,18 @@ const handleFileInfo = (file: UploadUserFile) => {
   const { size, name } = file.raw;
   return { size: formatBytes(size, 2), name };
 };
-const reset = () => {
-  showProgress.value = false;
+const resetProgressValue = () => {
   progressStatus.value.progressBar = 0;
   progressStatus.value.text = '';
   progressStatus.value.isMerge = false;
   progressStatus.value.success = false;
 };
-// const showProgressBar = ref(false);
+const reset = () => {
+  showProgress.value = false;
+  fileList.value = [];
+  resetProgressValue();
+};
+
 const handleExceed: UploadProps['onExceed'] = files => {
   uploadRef.value!.clearFiles();
   const file = files[0] as UploadRawFile;
@@ -123,6 +120,10 @@ const updateProgress = (value: IUploadStatus) => {
   progressStatus.value.isMerge = value.isMerge;
   progressStatus.value.success = value.success;
 };
+const getUploadFileUrl = (url: string) => {
+  console.log(url);
+  emits('update:file-url', [url]);
+};
 const handleUploadStatus = (percentage: number) => {
   if (!progressStatus.value.success && !progressStatus.value.isMerge) {
     return `${percentage}%`;
@@ -132,10 +133,15 @@ const handleUploadStatus = (percentage: number) => {
 const handleUploadFile = (files: UploadRequestOptions) => {
   const { file } = files;
   showProgress.value = true;
-  uploadFileSlice(file, updateProgress);
+  resetProgressValue();
+  uploadFileSlice(file, updateProgress, getUploadFileUrl);
 };
 const handleDeleteFile = (file:UploadUserFile) => {
-  emits('update:file-list', props.fileList?.filter(item => item !== file));
+  // emits('update:file-url', props.fileList?.filter(item => item !== file));
+  fileList.value = fileList.value?.filter(item => item !== file);
+  resetProgressValue();
+  showProgress.value = false;
+  emits('update:file-url', []);
 };
 defineExpose({
   reset,

@@ -1,10 +1,9 @@
-// import { ElMessage } from 'element-plus';
 // @ts-ignore
 import SparkMD5 from 'spark-md5';
 import { ref } from 'vue';
 
+import { mergeUploadFile, uploadFile } from '@/api';
 import { $bus } from '@/core/plugins/helper';
-import { mergeUploadFile, uploadFile } from '@/modules/blog/api';
 import { IUploadStatus } from '@/modules/blog/types/type';
 
 const isCancel = ref(false);
@@ -32,15 +31,25 @@ const getMD5 = (file: File): Promise<string> => new Promise((resolve, reject) =>
   });
 });
 
+// const mergeFile = async (data: {}) => {
+//   await mergeUploadFile(data);
+// };
+
 /**
  * 分片完成，合并文件
- * @param data
+ * @param file
+ * @param progressCb
+ * @param success
+ * @param currentChunk
  */
-const mergeFile = async (data: {}) => {
-  await mergeUploadFile(data);
-};
-// eslint-disable-next-line no-unused-vars
-export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStatus)=>void, currentChunk = 0) => {
+export const uploadFileSlice = async (
+  file: File,
+  // eslint-disable-next-line no-unused-vars
+  progressCb:(value: IUploadStatus)=>void,
+  // eslint-disable-next-line no-unused-vars
+  success:(url: string)=>void,
+  currentChunk = 0
+) => {
   // 文件名
   const { name, size } = file;
   // 分片大小-每一片多大
@@ -61,7 +70,7 @@ export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStat
       success: false
     });
     // // 合并文件
-    await mergeFile({
+    const res = await mergeUploadFile({
       hash,
       name,
       totalChunks: chunkTotal
@@ -73,6 +82,7 @@ export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStat
       success: true
     });
     isCancel.value = false;
+    success(res.url);
     return;
   }
   // 文件开始结束的位置
@@ -103,6 +113,6 @@ export const uploadFileSlice = async (file: File, progressCb:(value: IUploadStat
     await uploadFile(formData);
     currentChunk += 1;
     // 递归调用 分片函数
-    await uploadFileSlice(file, progressCb, currentChunk);
+    await uploadFileSlice(file, progressCb, success, currentChunk);
   }
 };

@@ -57,7 +57,7 @@
         >
           <upload-file
             ref="selfUploadRef"
-            v-model:file-list="uploadForm.fileList"
+            v-model:file-url="uploadForm.fileList"
             :is-show-progress="showProgress"
           />
         </el-form-item>
@@ -79,14 +79,12 @@
 </template>
 
 <script setup lang='ts'>
-import { FormInstance, FormRules, UploadUserFile } from 'element-plus';
+import { FormInstance, FormRules } from 'element-plus';
 import { computed, onUnmounted, reactive, ref } from 'vue';
 
 import { $bus } from '@/core/plugins/helper';
-import { uploadFile } from '@/modules/blog/api';
 import { BLOG_TAGS } from '@/modules/blog/constants';
 import UploadFile from '@/modules/blog/upload/upload.vue';
-import { uploadFileSlice } from '@/modules/blog/utils';
 
 defineOptions({
   name: 'uploadFile'
@@ -105,7 +103,7 @@ const props = defineProps({
 const uploadForm = reactive({
   title: '',
   tagsList: [],
-  fileList: [] as UploadUserFile[]
+  fileList: [] as string[]
 });
 const validTags = (rule: any, value: any, callback: any) => {
   if (uploadForm.tagsList.length > 5) {
@@ -122,14 +120,8 @@ const validFileList = (rule: any, value: any, callback: any) => {
   }
 };
 const handleUpload = async () => {
+  console.log(888, uploadForm.fileList);
   await formRef.value?.validate();
-  loading.value = true;
-  $bus.emit('cancel-upload', false);
-  const file = uploadForm.fileList.map(v => v.raw)[0];
-  showProgress.value = true;
-  uploadFileSlice(file!, selfUploadRef.value.updateProgress).finally(() => {
-    loading.value = false;
-  });
 };
 const rules = reactive<FormRules>({
   title: [
@@ -142,9 +134,15 @@ const rules = reactive<FormRules>({
     { validator: validTags, trigger: 'blur' }
   ]
 });
-const isVisible = computed(() => props.visible);
+const isVisible = computed({
+  get() {
+    return props.visible;
+  },
+  set(v) {
+    emits('update:visible', v);
+  }
+});
 const handleVisible = async () => {
-  $bus.emit('cancel-upload', true);
   selfUploadRef.value.reset();
   showProgress.value = false;
   await formRef.value?.resetFields();
