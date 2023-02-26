@@ -1,6 +1,8 @@
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
 import SM4 from 'gm-crypt';
+// @ts-ignore
+import md5 from 'js-md5';
 
 const cryptoConfig = {
   // 配置sm4参数
@@ -25,4 +27,10 @@ export const SM4DeCrypto = (DeString: string) => {
   } catch (e) {
     return DeString;
   }
+};
+export const md5EnCrypto = (plain: string) => {
+  const salt = 'c-y-q-c-zhiq5_&x$$f&8036*^9z9(*us-(x#p2zu8!z5m^j!_w4**7hhdx';
+  const hash = md5.create();
+  hash.update(plain + salt);
+  return hash.hex();
 };

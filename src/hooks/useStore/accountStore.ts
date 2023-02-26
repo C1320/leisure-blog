@@ -11,19 +11,23 @@ import { defineStore } from 'pinia';
 import { setStoreId } from '@/core/plugins/helper';
 
 export interface IUserInfo {
-  name: string;
-  userName: string;
+  account: string;
+  username: string;
   isLogin: boolean;
 }
 export const useUserAccountStore = defineStore(setStoreId('userAccount'), {
   state: () => {
     return {
-      userInfo: {} as IUserInfo
+      userInfo: {} as IUserInfo,
+      token: ''
     };
   },
   actions: {
     setUserInfo(user: IUserInfo) {
       this.userInfo = user;
+    },
+    setToken(t: string) {
+      this.token = t;
     }
   },
   // 使用该插件，开启数据缓存

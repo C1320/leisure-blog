@@ -131,12 +131,18 @@ import { onMounted, reactive, ref } from 'vue';
 // import { SM4EnCrypto } from '@/core/plugins/crypt';
 import { useRouter } from 'vue-router';
 
-import { getAccountCookie } from '@/core/auth';
-// import { useUserAccountStore } from '@/hooks';
+import { userLogin } from '@/api';
+import { getAccountCookie,
+  removeAccountCookie,
+  setAccountCookie,
+  setTokenCookie
+} from '@/core/auth';
+import { md5EnCrypto } from '@/core/plugins/crypt';
+import { useUserAccountStore } from '@/hooks';
 
 const loginLoading = ref(false);
 const ns = useNamespace('login');
-// const userAccountStore = useUserAccountStore();
+const userAccountStore = useUserAccountStore();
 const router = useRouter();
 defineOptions({
   name: useCreateComponentName('login')
@@ -150,14 +156,14 @@ const ruleForm = reactive({
   code: '111'
 });
 
-// const handleRememberPassword = (v: boolean) => {
-//   if (v) {
-//     setAccountCookie(JSON.stringify(ruleForm));
-//     return;
-//   }
-//   const account = getAccountCookie();
-//   if (account) removeAccountCookie();
-// };
+const handleRememberPassword = (v: boolean) => {
+  if (v) {
+    setAccountCookie(JSON.stringify(ruleForm));
+    return;
+  }
+  const account = getAccountCookie();
+  if (account) removeAccountCookie();
+};
 const checkCode = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入验证码'));
@@ -187,19 +193,19 @@ const rules = ref({
 
 const handleLogin = () => {
   loginLoading.value = true;
-  // rtcLogin({
-  //   password: ruleForm.password,
-  //   username: ruleForm.account
-  // }).then(async res => {
-  //   setTokenCookie((res as any).token);
-  //   userAccountStore.setToken((res as any).token);
-  //   handleRememberPassword(ruleForm.rememberChecked);
-  //   const l2w = document.querySelector('#live2d-widget');
-  //   l2w?.remove();
-  //   await router.replace('/index');
-  // }).finally(() => {
-  //   loginLoading.value = false;
-  // });
+  userLogin({
+    password: md5EnCrypto(ruleForm.password),
+    account: ruleForm.account
+  }).then(async res => {
+    setTokenCookie(res.token);
+    userAccountStore.setToken(res.token);
+    handleRememberPassword(ruleForm.rememberChecked);
+    const l2w = document.querySelector('#live2d-widget');
+    l2w?.remove();
+    await router.replace('/index');
+  }).finally(() => {
+    loginLoading.value = false;
+  });
 };
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
