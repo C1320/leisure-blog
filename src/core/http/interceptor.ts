@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { ElMessage } from 'element-plus';
 
+import { getTokenCookie, removeTokenCookie } from '@/core/auth';
 // import { getTokenCookie } from '@/core/auth';
 import { AxiosCanceler } from '@/core/http/cancelRequest';
 
@@ -35,11 +36,11 @@ class RequestHttp {
     this.#service.interceptors.request.use(
       // @ts-ignore
       (conf: IRequestParamsConfig) => {
-        // if (userAccountStore.token) {
-        //   conf.headers = {
-        //     Authorization: `Bearer${getTokenCookie()}` || ''
-        //   };
-        // }
+        if (getTokenCookie()) {
+          conf.headers = {
+            Authorization: `${getTokenCookie()}` || ''
+          };
+        }
         const newConfig = {
           ...baseConfig,
           ...config,
@@ -76,7 +77,7 @@ class RequestHttp {
      */
     this.#service.interceptors.response.use(
       // @ts-ignore
-      (response: IResponse) => {
+      async (response: IResponse) => {
         closeLoading();
         response && axiosCanceler.removePending(response.config);
         const { data } = response; // 解构
@@ -84,7 +85,10 @@ class RequestHttp {
         if (data.code !== 200) {
           if (data.code === 432) { // 登录过期或令牌无效
             messageTip('登录已过期或令牌无效');
-            window.history.replaceState(null, '', '/login');
+            removeTokenCookie();
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1000);
           } else {
             messageTip(data.msg || '请求失败');
           }

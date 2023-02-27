@@ -200,8 +200,8 @@ const handleLogin = () => {
     setTokenCookie(res.token);
     userAccountStore.setToken(res.token);
     handleRememberPassword(ruleForm.rememberChecked);
-    const l2w = document.querySelector('#live2d-widget');
-    l2w?.remove();
+    // const l2w = document.querySelector('#live2d-widget');
+    // l2w?.remove();
     await router.replace('/index');
   }).finally(() => {
     loginLoading.value = false;

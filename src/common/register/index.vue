@@ -26,14 +26,14 @@
             :model="ruleForm"
             status-icon
             :rules="rules"
-            label-width="60px"
+            label-width="90"
           >
             <el-form-item
               prop="username"
-              label="用户名："
+              label="名称："
             >
               <el-input
-                v-model="ruleForm.username"
+                v-model.trim="ruleForm.username"
                 size="large"
                 autocomplete="off"
                 clearable
@@ -42,11 +42,11 @@
             </el-form-item>
 
             <el-form-item
-              prop="nickname"
-              label="昵称："
+              prop="account"
+              label="账号："
             >
               <el-input
-                v-model="ruleForm.nickname"
+                v-model.trim="ruleForm.account"
                 size="large"
                 autocomplete="off"
                 clearable
@@ -55,11 +55,11 @@
             </el-form-item>
 
             <el-form-item
-              prop="pass"
+              prop="password"
               label="密码："
             >
               <el-input
-                v-model="ruleForm.pass"
+                v-model.trim="ruleForm.password"
                 size="large"
                 autocomplete="off"
                 clearable
@@ -67,19 +67,31 @@
                 placeholder="请输入密码"
               />
             </el-form-item>
-
             <el-form-item
-              prop="email"
-              label="邮箱："
+              prop="acc_password"
+              label="确认密码："
             >
               <el-input
-                v-model="ruleForm.email"
+                v-model.trim="ruleForm.acc_password"
                 size="large"
                 autocomplete="off"
                 clearable
-                placeholder="请输入邮箱"
+                type="password"
+                placeholder="再次输入密码"
               />
             </el-form-item>
+            <!--            <el-form-item-->
+            <!--              prop="email"-->
+            <!--              label="邮箱："-->
+            <!--            >-->
+            <!--              <el-input-->
+            <!--                v-model="ruleForm.email"-->
+            <!--                size="large"-->
+            <!--                autocomplete="off"-->
+            <!--                clearable-->
+            <!--                placeholder="请输入邮箱"-->
+            <!--              />-->
+            <!--            </el-form-item>-->
 
             <el-button
               class="register_button"
@@ -97,35 +109,37 @@
 </template>
 
 <script setup lang="ts">
+import { cloneDeep } from '@co/utils';
 import { ElMessage, FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-// import { registry } from '@/api/user';
+import { userRegistry } from '@/api';
+import { md5EnCrypto } from '@/core/plugins/crypt';
 
 const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
   username: '',
-  pass: '',
-  nickname: '',
-  email: ''
+  password: '',
+  acc_password: '',
+  account: ''
 });
 
-const validateMailbox = (rule: any, value: any, callback: any) => {
-  const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+const validateAccPassword = (rule: any, value: any, callback: any) => {
+  // const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
   if (value === '') {
-    callback(new Error('请输入邮箱'));
-  } else if (!reg.test(value)) {
-    callback(new Error('邮箱格式不正确'));
+    callback(new Error('请输入确认密码'));
+  } else if (value !== ruleForm.password) {
+    callback(new Error('两次密码不一致'));
   }
   callback();
 };
 
 const validateAccount = (rule: any, value: any, callback: any) => {
   if (value === '') {
-    callback(new Error('请输入用户名'));
+    callback(new Error('请输入账号'));
   } else {
     callback();
   }
@@ -137,23 +151,26 @@ const validatePassword = (_rule: any, value: any, callback: any) => {
   callback();
 };
 
-const validateNickname = (_rule: any, value: any, callback: any) => {
+const validateUsername = (_rule: any, value: any, callback: any) => {
   if (value === '') {
-    callback(new Error('请输入昵称'));
+    callback(new Error('请输入名称'));
   }
   callback();
 };
 
 const rules = ref({
-  username: [{ validator: validateAccount, trigger: 'blur' }],
-  pass: [{ validator: validatePassword, trigger: 'blur' }],
-  nickname: [{ validator: validateNickname, trigger: 'blur' }],
-  email: [{ validator: validateMailbox, trigger: 'blur' }]
+  account: [{ validator: validateAccount, trigger: 'blur' }],
+  password: [{ validator: validatePassword, trigger: 'blur' }],
+  username: [{ validator: validateUsername, trigger: 'blur' }],
+  acc_password: [{ validator: validateAccPassword, trigger: 'blur' }]
 });
 
 const handleRegister = async () => {
   await ruleFormRef.value!.validate();
-  // await registry({ ...ruleForm });
+  const form = cloneDeep(ruleForm);
+  form.password = md5EnCrypto(form.password);
+  form.acc_password = md5EnCrypto(form.acc_password);
+  await userRegistry({ ...form });
   ElMessage.success('注册成功');
   setTimeout(async () => {
     await router.back();

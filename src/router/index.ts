@@ -3,6 +3,8 @@ import 'nprogress/nprogress.css';
 import NProgress from 'nprogress';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
+import { getTokenCookie } from '@/core/auth';
+
 import commonRouter from './common';
 import modulesRoutes from './modules/asyncRouter';
 
@@ -15,7 +17,7 @@ router.beforeEach((to, _from, next) => {
   NProgress.start();
   // 是否需要权限
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (localStorage.getItem('token')) {
+    if (!getTokenCookie()) {
       next({
         path: '/login'
       });
