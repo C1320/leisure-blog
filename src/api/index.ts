@@ -43,3 +43,9 @@ export const userInfo = () => {
     isLoading: false
   });
 };
+
+export const userLogout = () => {
+  return http.get({
+    url: 'user/logout'
+  });
+};

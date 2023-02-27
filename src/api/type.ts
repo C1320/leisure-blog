@@ -25,6 +25,4 @@ export namespace User {
     gender: number;
     email: string;
   }
-
 }
-
