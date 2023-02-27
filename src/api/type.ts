@@ -15,5 +15,16 @@ export namespace User {
   export interface IRegistryResponse{
     token: string;
   }
+  export interface IUserInfoResponse {
+    id: number;
+    username: string;
+    account: string;
+    phone: string;
+    registry_date: Date;
+    update_date: Date;
+    gender: number;
+    email: string;
+  }
 
 }
+

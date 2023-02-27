@@ -22,14 +22,24 @@
 <script lang="ts" setup>
 // import { computed } from 'vue';
 
-// import { useCommon } from '@/hooks';
-
 // import CoMenu from './co-aside/index.vue';
+import { onMounted } from 'vue';
+
+import { userInfo } from '@/api';
+import { useUserAccountStore } from '@/hooks';
+
 import CoHeader from './co-header/index.vue';
 import CoMain from './co-main/index.vue';
 
-// const useCommonStore = useCommon();
+const userAccountStore = useUserAccountStore();
 // const isExpand = computed(() => useCommonStore.isExpand);
+const getUserInfo = async () => {
+  const res = await userInfo();
+  userAccountStore.setUserInfo({ ...res, isLogin: true });
+};
+onMounted(() => {
+  getUserInfo();
+});
 </script>
 
 <style scoped lang="scss">

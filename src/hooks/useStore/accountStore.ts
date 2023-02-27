@@ -8,11 +8,10 @@
  */
 import { defineStore } from 'pinia';
 
+import { User } from '@/api/type';
 import { setStoreId } from '@/core/plugins/helper';
 
-export interface IUserInfo {
-  account: string;
-  username: string;
+export interface IUserInfo extends User.IUserInfoResponse{
   isLogin: boolean;
 }
 export const useUserAccountStore = defineStore(setStoreId('userAccount'), {

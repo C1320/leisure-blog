@@ -37,3 +37,9 @@ export const userRegistry = (data:User.IRegistryRequest) => {
     data
   });
 };
+export const userInfo = () => {
+  return http.get<User.IUserInfoResponse>({
+    url: 'user/info',
+    isLoading: false
+  });
+};

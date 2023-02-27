@@ -1,53 +1,55 @@
 <template>
   <div :class="ns.b('toolbar')">
-    <div
-      :class="ns.b('expand')"
-      @click="handleUpdateExpand"
-    >
-      <el-icon
-        size="25"
-        style="cursor: pointer"
-      >
-        <Expand v-show="isExpand" />
-        <Fold v-show="!isExpand" />
-      </el-icon>
-    </div>
+    <div />
+    <!--    <div-->
+    <!--      :class="ns.b('expand')"-->
+    <!--      @click="handleUpdateExpand"-->
+    <!--    >-->
+    <!--      <el-icon-->
+    <!--        size="25"-->
+    <!--        style="cursor: pointer"-->
+    <!--      >-->
+    <!--        <Expand v-show="isExpand" />-->
+    <!--        <Fold v-show="!isExpand" />-->
+    <!--      </el-icon>-->
+    <!--    </div>-->
     <div :class="ns.bm('toolbar', 'right')">
       <el-dropdown>
-        <el-icon style="margin-right: 8px; margin-top: 1px">
-          <setting />
-        </el-icon>
+        <div style="cursor: pointer">
+          <el-avatar
+            :size="45"
+            src="https://s3.bmp.ovh/imgs/2022/11/23/f0fcebdd69e0360a.jpeg"
+          />
+        </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>View</el-dropdown-item>
-            <el-dropdown-item>Add</el-dropdown-item>
-            <el-dropdown-item>Delete</el-dropdown-item>
+            <el-dropdown-item>我的</el-dropdown-item>
+            <el-dropdown-item>页面布局</el-dropdown-item>
+            <el-dropdown-item>退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span>Tom</span>
+      <span>{{ username }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang='ts'>
 import { useNamespace } from '@co/utils';
-import { Expand, Fold, Setting } from '@element-plus/icons-vue';
 import { computed } from 'vue';
 
-import { useCommon } from '@/hooks';
+import { useUserAccountStore } from '@/hooks';
 
 const ns = useNamespace('header');
-const useCommonStore = useCommon();
-const isExpand = computed(() => useCommonStore.isExpand);
-const handleUpdateExpand = () => {
-  useCommonStore.setExpandState();
-};
+const userAccountStore = useUserAccountStore();
+const username = computed(() => userAccountStore.userInfo.username);
 </script>
 
 <style scoped lang='scss'>
 .cz-header{
+
   &-toolbar{
+    user-select: none;
     width: 100%;
     display: flex;
     align-items: center;
