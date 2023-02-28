@@ -6,8 +6,7 @@
           <div :class="ns.bm('wrapper','list')">
             <div :class="ns.bm('abstract','wrapper')">
               <list-card
-                v-for="i in [1,2,3,4,5,6,7,8,9]"
-                :key="i"
+                @click="handleDetails()"
               />
             </div>
           </div>
@@ -29,16 +28,25 @@
 <script lang="ts" setup>
 import { useNamespace } from '@co/utils';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import AppPage from '@/components/app-page/app-page.vue';
 import UploadFile from '@/modules/blog/upload/index.vue';
 import ListCard from '@/modules/home/card.vue';
 
 const ns = useNamespace('home');
-
+const router = useRouter();
 const uploadVisible = ref(false);
 const handleUpload = () => {
   uploadVisible.value = true;
+};
+const handleDetails = () => {
+  router.push({
+    name: 'BlogDetail',
+    params: {
+      id: '1111'
+    }
+  });
 };
 </script>
 

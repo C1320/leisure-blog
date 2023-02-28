@@ -2,7 +2,7 @@
   <div :class="ns.b('item')">
     <i class="cz-icon icon-zhiding" />
     <div :class="ns.bm('item', 'title')">
-      <a href="#">哈哈哈哈</a>
+      哈哈哈哈
     </div>
     <div
       :class="ns.bm('item', 'info')"

@@ -61,8 +61,9 @@ import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { ElMessage, genFileId, UploadRequestOptions, UploadUserFile } from 'element-plus';
 import { PropType, ref } from 'vue';
 
-import { uploadFileSlice } from '@/core/http/upload';
-import { IUploadStatus } from '@/modules/blog/types/type';
+import { ossUpload } from '@/core/http/ossUpload';
+// import { uploadFileSlice } from '@/core/http/upload';
+// import { IUploadStatus } from '@/modules/blog/types/type';
 
 defineOptions({
   name: 'uploadFile'
@@ -114,11 +115,12 @@ const handleExceed: UploadProps['onExceed'] = files => {
   file.uid = genFileId();
   uploadRef.value!.handleStart(file);
 };
-const updateProgress = (value: IUploadStatus) => {
-  progressStatus.value.progressBar = value.progressBar;
-  progressStatus.value.text = value.text;
-  progressStatus.value.isMerge = value.isMerge;
-  progressStatus.value.success = value.success;
+const updateProgress = (value: number) => {
+  // progressStatus.value.progressBar = value.progressBar;
+  // progressStatus.value.text = value.text;
+  // progressStatus.value.isMerge = value.isMerge;
+  // progressStatus.value.success = value.success;
+  progressStatus.value.progressBar = value;
 };
 const getUploadFileUrl = (url: string) => {
   console.log(url);
@@ -134,7 +136,8 @@ const handleUploadFile = (files: UploadRequestOptions) => {
   const { file } = files;
   showProgress.value = true;
   resetProgressValue();
-  uploadFileSlice(file, updateProgress, getUploadFileUrl);
+  ossUpload(file, updateProgress, getUploadFileUrl);
+  // uploadFileSlice(file, updateProgress, getUploadFileUrl);
 };
 const handleDeleteFile = (file:UploadUserFile) => {
   // emits('update:file-url', props.fileList?.filter(item => item !== file));

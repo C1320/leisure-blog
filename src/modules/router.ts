@@ -22,8 +22,9 @@ export default [
         // component: () => import('./view/list/app-page.vue')
       },
       {
-        path: '/aa',
-        component: () => import('@/components/HelloWorld.vue'),
+        path: '/blog/detail/:id?',
+        name: 'BlogDetail',
+        component: () => import('@/modules/blog/detail/index.vue'),
         meta: {
           title: '测试'
         }

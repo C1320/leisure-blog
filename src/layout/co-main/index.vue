@@ -7,6 +7,7 @@
     <slot />
     <router-view
       v-slot="{ Component }"
+      :key="new Date()"
       class="cz-content-main"
     >
       <transition
