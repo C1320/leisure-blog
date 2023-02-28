@@ -79,9 +79,10 @@
 </template>
 
 <script setup lang='ts'>
-import { FormInstance, FormRules } from 'element-plus';
+import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import { computed, onUnmounted, reactive, ref } from 'vue';
 
+import { blogUpload } from '@/api';
 import { $bus } from '@/core/plugins/helper';
 import { BLOG_TAGS } from '@/modules/blog/constants';
 import UploadFile from '@/modules/blog/upload/upload.vue';
@@ -122,6 +123,12 @@ const validFileList = (rule: any, value: any, callback: any) => {
 const handleUpload = async () => {
   console.log(888, uploadForm.fileList);
   await formRef.value?.validate();
+  await blogUpload({
+    title: uploadForm.title,
+    url: uploadForm.fileList[0],
+    tags: uploadForm.tagsList
+  });
+  ElMessage.success('上传成功');
 };
 const rules = reactive<FormRules>({
   title: [

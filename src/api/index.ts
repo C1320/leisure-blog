@@ -1,4 +1,4 @@
-import { User } from '@/api/type';
+import { Blog, User } from '@/api/type';
 import { http, uploadHttp } from '@/core/http';
 
 export const uploadFile = (data: FormData) => {
@@ -47,5 +47,11 @@ export const userInfo = () => {
 export const userLogout = () => {
   return http.get({
     url: 'user/logout'
+  });
+};
+export const blogUpload = (data:Blog.IBlogUploadRequest) => {
+  return http.post({
+    url: 'blog/upload',
+    data
   });
 };

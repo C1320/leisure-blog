@@ -26,3 +26,10 @@ export namespace User {
     email: string;
   }
 }
+export namespace Blog {
+  export interface IBlogUploadRequest{
+    title: string;
+    url: string | string[];
+    tags: string[];
+  }
+}
