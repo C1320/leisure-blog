@@ -55,3 +55,9 @@ export const blogUpload = (data:Blog.IBlogUploadRequest) => {
     data
   });
 };
+
+export const blogList = () => {
+  return http.get({
+    url: 'blog/list'
+  });
+};

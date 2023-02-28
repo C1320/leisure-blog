@@ -27,9 +27,10 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@co/utils';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import { blogList } from '@/api';
 import AppPage from '@/components/app-page/app-page.vue';
 import UploadFile from '@/modules/blog/upload/index.vue';
 import ListCard from '@/modules/home/card.vue';
@@ -48,6 +49,10 @@ const handleDetails = () => {
     }
   });
 };
+onMounted(async () => {
+  const res = await blogList();
+  console.log(111, res);
+});
 </script>
 
 <style scoped lang=scss>
