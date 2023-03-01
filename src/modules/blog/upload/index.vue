@@ -22,6 +22,7 @@
             v-model="uploadForm.title"
             clearable
             autocomplete="off"
+            placeholder="上传文件后自动填写"
           />
         </el-form-item>
         <el-form-item
@@ -57,7 +58,7 @@
         >
           <upload-file
             ref="selfUploadRef"
-            v-model:file-url="uploadForm.fileList"
+            v-model:file="uploadForm.file"
             :is-show-progress="showProgress"
           />
         </el-form-item>
@@ -80,7 +81,7 @@
 
 <script setup lang='ts'>
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
-import { computed, onUnmounted, reactive, ref } from 'vue';
+import { computed, onUnmounted, reactive, ref, watch } from 'vue';
 
 import { blogUpload } from '@/api';
 import { $bus } from '@/core/plugins/helper';
@@ -90,6 +91,10 @@ import UploadFile from '@/modules/blog/upload/upload.vue';
 defineOptions({
   name: 'uploadFile'
 });
+export interface IFile {
+  title: string;
+  url: string[];
+}
 const emits = defineEmits(['update:visible']);
 const formRef = ref<FormInstance>();
 const loading = ref(false);
@@ -104,7 +109,10 @@ const props = defineProps({
 const uploadForm = reactive({
   title: '',
   tagsList: [],
-  fileList: [] as string[]
+  file: {
+    title: '',
+    url: [] as string[]
+  }
 });
 const validTags = (rule: any, value: any, callback: any) => {
   if (uploadForm.tagsList.length > 5) {
@@ -113,19 +121,18 @@ const validTags = (rule: any, value: any, callback: any) => {
     callback();
   }
 };
-const validFileList = (rule: any, value: any, callback: any) => {
-  if (value.length < 1) {
+const validFileList = (rule: any, value: IFile, callback: any) => {
+  if (value.url.length < 1) {
     callback(new Error('请选择文件'));
   } else {
     callback();
   }
 };
 const handleUpload = async () => {
-  console.log(888, uploadForm.fileList);
   await formRef.value?.validate();
   await blogUpload({
-    title: uploadForm.title,
-    url: uploadForm.fileList[0],
+    title: uploadForm.file.title,
+    url: uploadForm.file.url[0],
     tags: uploadForm.tagsList
   });
   ElMessage.success('上传成功');
@@ -134,7 +141,7 @@ const rules = reactive<FormRules>({
   title: [
     { required: true, message: '请输入标题', trigger: 'blur' }
   ],
-  fileList: [{ required: true, message: '请选择文件', trigger: 'blur' },
+  file: [{ required: true, message: '请选择文件', trigger: 'blur' },
     { validator: validFileList, trigger: 'blur' }],
   tagsList: [
     { required: true, message: '请选择标签类型', trigger: 'blur' },
@@ -155,6 +162,11 @@ const handleVisible = async () => {
   await formRef.value?.resetFields();
   emits('update:visible', false);
 };
+watch(uploadForm.file, () => {
+  uploadForm.title = uploadForm.file.title;
+}, {
+  deep: true
+});
 onUnmounted(() => {
   $bus.off('cancel-upload');
 });

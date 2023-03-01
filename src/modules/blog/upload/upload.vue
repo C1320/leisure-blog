@@ -62,6 +62,11 @@ import { ElMessage, genFileId, UploadRequestOptions, UploadUserFile } from 'elem
 import { PropType, ref } from 'vue';
 
 import { ossUpload } from '@/core/http/ossUpload';
+
+export interface IFile {
+  title: string;
+  url: string[];
+}
 // import { uploadFileSlice } from '@/core/http/upload';
 // import { IUploadStatus } from '@/modules/blog/types/type';
 
@@ -69,15 +74,15 @@ defineOptions({
   name: 'uploadFile'
 });
 // eslint-disable-next-line no-unused-vars
-const emits = defineEmits<{(_event: 'update:file-url', _type: string[]): void;
+const emits = defineEmits<{(_event: 'update:file', _type: IFile): void;
 }>();
 const uploadRef = ref<UploadInstance>();
 const showProgress = ref(false);
 const fileList = ref<UploadUserFile[]>([]);
 defineProps({
-  fileUrl: {
-    type: Array as PropType<string[]>,
-    default: () => []
+  file: {
+    type: Object as PropType<IFile>,
+    default: () => {}
   },
   isShowProgress: {
     type: Boolean,
@@ -122,9 +127,11 @@ const updateProgress = (value: number) => {
   // progressStatus.value.success = value.success;
   progressStatus.value.progressBar = value;
 };
-const getUploadFileUrl = (url: string) => {
-  console.log(url);
-  emits('update:file-url', [url]);
+const getUploadFile = (url: string, name: string) => {
+  emits('update:file', {
+    title: name,
+    url: [url]
+  });
 };
 const handleUploadStatus = (percentage: number) => {
   if (!progressStatus.value.success && !progressStatus.value.isMerge) {
@@ -136,7 +143,7 @@ const handleUploadFile = (files: UploadRequestOptions) => {
   const { file } = files;
   showProgress.value = true;
   resetProgressValue();
-  ossUpload(file, updateProgress, getUploadFileUrl);
+  ossUpload(file, updateProgress, getUploadFile);
   // uploadFileSlice(file, updateProgress, getUploadFileUrl);
 };
 const handleDeleteFile = (file:UploadUserFile) => {
@@ -144,7 +151,7 @@ const handleDeleteFile = (file:UploadUserFile) => {
   fileList.value = fileList.value?.filter(item => item !== file);
   resetProgressValue();
   showProgress.value = false;
-  emits('update:file-url', []);
+  emits('update:file', {} as IFile);
 };
 defineExpose({
   reset,

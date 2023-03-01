@@ -2,40 +2,48 @@
   <div :class="ns.b('item')">
     <i class="cz-icon icon-zhiding" />
     <div :class="ns.bm('item', 'title')">
-      哈哈哈哈
+      {{ props.list.title }}
     </div>
     <div
       :class="ns.bm('item', 'info')"
     >
       <i class="cz-icon icon-geren ">
-        <span>信息</span>
+        <span>{{ props.list.username }}</span>
       </i>
       <i class="cz-icon icon-shijian">
-        <span>信息</span>
+        <span>{{ formatDate(props.list.create_date, 'yyyy-MM-dd HH:mm:ss') }}</span>
       </i>
       <i class="cz-icon icon-a-ziyuan658">
         <span>深圳</span>
       </i>
       <i class="cz-icon icon-tags-full">
-        <span>JavaScript</span>
-        <span>typeScript</span>
-        <span>JSON</span>
-        <span>vue</span>
+        <span
+          v-for="item in Array.from(props.list.tags)"
+          :key="item"
+        >{{ item }}</span>
       </i>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useNamespace } from '@co/utils';
+import { formatDate, useNamespace } from '@co/utils';
 import { defineOptions } from 'unplugin-vue-define-options/macros';
+import { PropType } from 'vue';
+
+import { Blog } from '@/modules/blog/api/type';
 
 const ns = useNamespace('abstract');
 
 defineOptions({
   name: 'listCard'
 });
-
+const props = defineProps({
+  list: {
+    type: Object as PropType<Blog.IList>,
+    default: () => {}
+  }
+});
 </script>
 
 <style scoped lang=scss>

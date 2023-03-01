@@ -5,9 +5,15 @@
         <div :class="ns.b('wrapper')">
           <div :class="ns.bm('wrapper','list')">
             <div :class="ns.bm('abstract','wrapper')">
-              <list-card
-                @click="handleDetails()"
-              />
+              <div
+                v-for="item in blogListData"
+                :key="item.id"
+              >
+                <list-card
+                  :list="item"
+                  @click="handleDetails(item.id)"
+                />
+              </div>
             </div>
           </div>
           <div :class="ns.b('info-wrapper')">
@@ -27,32 +33,35 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@co/utils';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { blogList } from '@/api';
 import AppPage from '@/components/app-page/app-page.vue';
+import { blogList } from '@/modules/blog/api';
+import { Blog } from '@/modules/blog/api/type';
+import ListCard from '@/modules/blog/card.vue';
 import UploadFile from '@/modules/blog/upload/index.vue';
-import ListCard from '@/modules/home/card.vue';
 
 const ns = useNamespace('home');
 const router = useRouter();
 const uploadVisible = ref(false);
+const blogListData = ref<Blog.IList[]>([]);
 const handleUpload = () => {
   uploadVisible.value = true;
 };
-const handleDetails = () => {
+const handleDetails = (id: number) => {
   router.push({
     name: 'BlogDetail',
     params: {
-      id: '1111'
+      id
     }
   });
 };
-onMounted(async () => {
-  const res = await blogList();
-  console.log(111, res);
-});
+const getBlogList = async () => {
+  const { list: data } = await blogList();
+  blogListData.value = data;
+};
+getBlogList();
 </script>
 
 <style scoped lang=scss>

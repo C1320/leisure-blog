@@ -10,6 +10,7 @@ export const client = new OSS({
   accessKeyId: 'LTAI5tAUK2iBMcFUvKUvAxAT', // 通过阿里云控制台创建的AccessKey ID。
   accessKeySecret: 'KOBrWYqPs2qyS9FkFdbsr919YZIvLU', // 通过阿里云控制台创建的AccessKey Secret。
   bucket: 'blog-file-cz', // 仓库名字
+  // @ts-ignore
   useFetch: true, // 支持上传大于100KB的文件
   secure: true // 返回的url为https
 });
@@ -36,11 +37,9 @@ export const headers = {
 export const ossUpload = async (file: File, progressCb: Function, success: Function) => {
   const res = await client.multipartUpload(`${userAccount.userInfo.account}/${file.name}`, file, {
     progress: (p: any) => {
-      console.log({ p });
       progressCb(Math.floor(p * 100));
     },
     partSize: 2 * 1024 * 1024
   });
-  console.log(res.res.requestUrls);
-  success(res.res.requestUrls[0]);
+  success((res.res as any).requestUrls[0], file.name);
 };

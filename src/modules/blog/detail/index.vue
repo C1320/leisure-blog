@@ -25,15 +25,16 @@ import { ElMessage } from 'element-plus';
 import heightLight from 'highlight.js';
 import { marked } from 'marked';
 import { nextTick, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { preview } from 'vue3-preview-image';
 
 import AppPage from '@/components/app-page/app-page.vue';
-import { getMd } from '@/modules/blog/api';
+import { blogDetail, getMd } from '@/modules/blog/api';
 
 import titleToc from './title-toc.vue';
 
 const previewRef = ref();
-
+const route = useRoute();
 marked.setOptions({
   renderer: new marked.Renderer(),
   highlight(code, lang) {
@@ -93,8 +94,11 @@ const handleAnchor = (anchor:any) => {
   }
   // const heading = preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
 };
-const handleGetMd = () => {
-  getMd().then(res => {
+const handleGetMd = async () => {
+  const { id } = route.params;
+  if (!id) return;
+  const response = await blogDetail(id);
+  getMd(response.url).then(res => {
     html.value = marked(res.data);
     initToc();
   }).catch(res => {
