@@ -2,9 +2,9 @@
 
 @font-face {
   font-family: '#{$namespace}-icon';  /* Project id 3587479 */
-  src: url('//at.alicdn.com/t/c/font_3587479_ro62a6krado.woff2?t=1676782087841') format('woff2'),
-  url('//at.alicdn.com/t/c/font_3587479_ro62a6krado.woff?t=1676782087841') format('woff'),
-  url('//at.alicdn.com/t/c/font_3587479_ro62a6krado.ttf?t=1676782087841') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_3587479_bnp8q5tdi26.woff2?t=1677731331119') format('woff2'),
+  url('//at.alicdn.com/t/c/font_3587479_bnp8q5tdi26.woff?t=1677731331119') format('woff'),
+  url('//at.alicdn.com/t/c/font_3587479_bnp8q5tdi26.ttf?t=1677731331119') format('truetype');
 }
 .#{$namespace}-icon {
   font-family: "#{$namespace}-icon",Ubuntu,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif!important;
@@ -17,14 +17,55 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-fenlei:before {
-  content: "\e601";
+.icon-xitongcaidan:before {
+  content: "\e6b7";
 }
-.icon-zhiding:before {
-  content: "\e6fb";
+
+.icon-xitong:before {
+  content: "\e616";
+}
+
+.icon-shouye:before {
+  content: "\e8b9";
+}
+
+.icon-wendang:before {
+  content: "\e6aa";
+}
+
+.icon-biji:before {
+  content: "\e690";
+}
+
+.icon-ziyuan:before {
+  content: "\e615";
+}
+
+.icon-shangchuan:before {
+  content: "\e637";
+}
+
+.icon-biji1:before {
+  content: "\e6bc";
+}
+
+.icon-yejian:before {
+  content: "\e813";
+}
+
+.icon-shijianxian:before {
+  content: "\e674";
 }
 
 .icon-zhiding2:before {
+  content: "\e6fb";
+}
+
+.icon-fenlei:before {
+  content: "\e601";
+}
+
+.icon-zhiding:before {
   content: "\e617";
 }
 

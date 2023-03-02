@@ -11,3 +11,21 @@ a {
 body {
   overflow: hidden;
 }
+.co-main {
+  position: relative;
+}
+@media screen and (max-width: 992px){
+  .cz-affix-upload {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}
+/* 大屏幕（大桌面显示器，大于等于 1200px） */
+@media (min-width: 992px) {
+  .cz-affix-upload {
+    position: absolute;
+    top: 50%;
+    right: 0;
+  }
+}

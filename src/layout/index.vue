@@ -28,7 +28,7 @@ import { onMounted } from 'vue';
 import { userInfo } from '@/api';
 import { useUserAccountStore } from '@/hooks';
 
-import CoHeader from './co-header/index.vue';
+import CoHeader from './co-header/header.vue';
 import CoMain from './co-main/index.vue';
 
 const userAccountStore = useUserAccountStore();
@@ -43,17 +43,17 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.el-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: var(--el-color-primary-light-7);
-  color: var(--el-text-color-primary);
-  --el-header-height: 50px;
-  --el-header-padding: 0 ;
-  padding: var(--el-header-padding);
-  height: var(--el-header-height);
-}
+//.el-header {
+//  position: relative;
+//  display: flex;
+//  align-items: center;
+//  background-color: var(--el-color-primary-light-7);
+//  color: var(--el-text-color-primary);
+//  --el-header-height: 50px;
+//  --el-header-padding: 0 ;
+//  padding: var(--el-header-padding);
+//  height: var(--el-header-height);
+//}
 .el-aside {
 color: var(--el-text-color-primary);
 background: var(--el-color-primary-light-8);

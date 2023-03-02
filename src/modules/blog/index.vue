@@ -1,7 +1,7 @@
 <template>
-  <app-page>
+  <app-page class="home-page">
     <template #Main>
-      <div :class="ns.b('blog')">
+      <div :class="[ns.b('blog'), ns.b()]">
         <div :class="ns.b('wrapper')">
           <div :class="ns.bm('wrapper','list')">
             <div :class="ns.bm('abstract','wrapper')">
@@ -16,14 +16,22 @@
               </div>
             </div>
           </div>
-          <div :class="ns.b('info-wrapper')">
-            <el-button
-              type="primary"
-              @click="handleUpload"
-            >
-              上传
-            </el-button>
-          </div>
+          <!--          <div :class="ns.b('info-wrapper')">-->
+          <!--            <el-button-->
+          <!--              type="primary"-->
+          <!--            >-->
+          <!--              上传-->
+          <!--            </el-button>-->
+          <!--          </div>-->
+        </div>
+        <div class="cz-affix-upload">
+          <el-button
+            type="success"
+            size="large"
+            :icon="Plus"
+            circle
+            @click="handleUpload"
+          />
         </div>
       </div>
       <upload-file v-model:visible="uploadVisible" />
@@ -33,6 +41,7 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@co/utils';
+import { Plus } from '@element-plus/icons-vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -101,5 +110,9 @@ onMounted(() => {
     padding: 0 15px;
     background: var(--background-color);
   }
+}
+:deep(.el-button--large.is-circle){
+  --el-button-size:50px;
+  width: var(--el-button-size);
 }
 </style>
