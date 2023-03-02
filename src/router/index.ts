@@ -1,7 +1,7 @@
 import 'nprogress/nprogress.css';
 
 import NProgress from 'nprogress';
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import { getTokenCookie } from '@/core/auth';
 
@@ -10,7 +10,7 @@ import modulesRoutes from './modules/asyncRouter';
 
 const routes: Array<any> = [...commonRouter, ...modulesRoutes];
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 });
 router.beforeEach((to, _from, next) => {

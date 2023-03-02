@@ -28,9 +28,9 @@ VMdPreview.use(githubTheme, {
 VMdPreview.use(createLineNumberPlugin());
 
 app
+  .use(router)
   .use(setHighlightDirective)
   .use(ElementPlus, { size: 'small', zIndex: 3000 })
-  .use(router)
   .use(usePa)
   .use(VMdPreview)
   .use(highlightPlugin)

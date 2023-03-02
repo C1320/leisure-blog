@@ -72,41 +72,47 @@
       </el-icon>
       <span>时间线</span>
     </el-menu-item>
-    <el-sub-menu index="0">
+    <el-sub-menu index="">
       <template #title>
         <el-avatar
           :size="45"
           src="https://s3.bmp.ovh/imgs/2022/11/23/f0fcebdd69e0360a.jpeg"
         />
       </template>
-      <el-menu-item index="0-1">
-        <el-icon>
-          <i
-            class="cz-icon icon-geren"
-            style="font-size: 18px"
-          />
-        </el-icon>
-        <span>设置</span>
-      </el-menu-item>
-      <el-menu-item index="0-2">
-        <el-icon>
-          <i
-            class="cz-icon icon-xitongcaidan"
-            style="font-size: 18px"
-          />
-        </el-icon>
-        <span>布局</span>
-      </el-menu-item>
-      <el-menu-item>
-        <div @click="handleLogout">
+      <el-menu-item index="">
+        <template #default>
           <el-icon>
             <i
-              class="cz-icon icon-tuichudenglu2"
+              class="cz-icon icon-geren"
               style="font-size: 18px"
             />
           </el-icon>
-          <span>退出</span>
-        </div>
+          <span>设置</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item index="">
+        <template #default>
+          <el-icon>
+            <i
+              class="cz-icon icon-xitongcaidan"
+              style="font-size: 18px"
+            />
+          </el-icon>
+          <span>布局</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item index="">
+        <template #default>
+          <div @click="handleLogout">
+            <el-icon>
+              <i
+                class="cz-icon icon-tuichudenglu2"
+                style="font-size: 18px"
+              />
+            </el-icon>
+            <span>退出</span>
+          </div>
+        </template>
       </el-menu-item>
     </el-sub-menu>
   </el-menu>
