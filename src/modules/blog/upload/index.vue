@@ -95,7 +95,7 @@ export interface IFile {
   title: string;
   url: string[];
 }
-const emits = defineEmits(['update:visible']);
+const emits = defineEmits(['update:visible', 'success']);
 const formRef = ref<FormInstance>();
 const loading = ref(false);
 const showProgress = ref(false);
@@ -137,6 +137,7 @@ const handleUpload = async () => {
   });
   ElMessage.success('上传成功');
   emits('update:visible', false);
+  emits('success');
 };
 const rules = reactive<FormRules>({
   title: [

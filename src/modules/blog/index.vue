@@ -34,7 +34,10 @@
           />
         </div>
       </div>
-      <upload-file v-model:visible="uploadVisible" />
+      <upload-file
+        v-model:visible="uploadVisible"
+        @success="getBlogList"
+      />
     </template>
   </app-page>
 </template>

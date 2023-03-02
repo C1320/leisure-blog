@@ -4,13 +4,14 @@
     class="el-menu-demo"
     mode="horizontal"
     :ellipsis="false"
+    router
     @select="handleSelect"
   >
-    <el-menu-item index="0">
+    <el-menu-item>
       LOGO
     </el-menu-item>
     <div class="flex-grow" />
-    <el-menu-item index="1">
+    <el-menu-item index="/index">
       <el-icon>
         <i
           class="cz-icon icon-shouye"
@@ -96,17 +97,16 @@
         </el-icon>
         <span>布局</span>
       </el-menu-item>
-      <el-menu-item
-        index="0-3"
-        @click="handleLogout"
-      >
-        <el-icon>
-          <i
-            class="cz-icon icon-tuichudenglu2"
-            style="font-size: 18px"
-          />
-        </el-icon>
-        <span>退出</span>
+      <el-menu-item>
+        <div @click="handleLogout">
+          <el-icon>
+            <i
+              class="cz-icon icon-tuichudenglu2"
+              style="font-size: 18px"
+            />
+          </el-icon>
+          <span>退出</span>
+        </div>
       </el-menu-item>
     </el-sub-menu>
   </el-menu>
@@ -117,7 +117,7 @@ import { ref } from 'vue';
 
 import { handleLogout } from '@/layout/co-header/handle';
 
-const activeIndex = ref('1');
+const activeIndex = ref('/index');
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
