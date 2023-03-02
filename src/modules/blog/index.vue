@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@co/utils';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import AppPage from '@/components/app-page/app-page.vue';
@@ -61,7 +61,9 @@ const getBlogList = async () => {
   const { list: data } = await blogList();
   blogListData.value = data;
 };
-getBlogList();
+onMounted(() => {
+  getBlogList();
+});
 </script>
 
 <style scoped lang=scss>
