@@ -6,7 +6,7 @@
           <div :class="ns.bm('wrapper','list')">
             <div :class="ns.bm('abstract','wrapper')">
               <div
-                v-for="item in blogListData"
+                v-for="item in blogListData.list"
                 :key="item.id"
               >
                 <list-card
@@ -39,6 +39,12 @@
         @success="getBlogList"
       />
     </template>
+    <template #Footer>
+      <co-pagination
+        :total="blogListData.total"
+        :page-size="10"
+      />
+    </template>
   </app-page>
 </template>
 
@@ -49,6 +55,7 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import AppPage from '@/components/app-page/app-page.vue';
+import CoPagination from '@/components/co-pagination/index';
 import { blogList } from '@/modules/blog/api';
 import { Blog } from '@/modules/blog/api/type';
 import ListCard from '@/modules/blog/card.vue';
@@ -57,7 +64,8 @@ import UploadFile from '@/modules/blog/upload/index.vue';
 const ns = useNamespace('home');
 const router = useRouter();
 const uploadVisible = ref(false);
-const blogListData = ref<Blog.IList[]>([]);
+const blogListData = ref<Blog.IBlogListResponse>({} as Blog.IBlogListResponse);
+
 const handleUpload = () => {
   uploadVisible.value = true;
 };
@@ -70,8 +78,7 @@ const handleDetails = (id: number) => {
   });
 };
 const getBlogList = async () => {
-  const { list: data } = await blogList();
-  blogListData.value = data;
+  blogListData.value = await blogList();
 };
 onMounted(() => {
   getBlogList();

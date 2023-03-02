@@ -57,11 +57,11 @@ onUnmounted(() => {
 
 <style scoped lang='scss'>
 #co-footer {
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.12);
 }
-#co-main {
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.12);
-}
+//#co-main {
+//  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.12);
+//}
 .el-footer {
   display: flex;
   align-items: center;
