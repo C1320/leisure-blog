@@ -54,7 +54,7 @@
         </el-form-item>
         <el-form-item
           label="上传文件"
-          prop="fileList"
+          prop="file"
         >
           <upload-file
             ref="selfUploadRef"
@@ -131,11 +131,12 @@ const validFileList = (rule: any, value: IFile, callback: any) => {
 const handleUpload = async () => {
   await formRef.value?.validate();
   await blogUpload({
-    title: uploadForm.file.title,
+    title: uploadForm.title,
     url: uploadForm.file.url[0],
     tags: uploadForm.tagsList
   });
   ElMessage.success('上传成功');
+  emits('update:visible', false);
 };
 const rules = reactive<FormRules>({
   title: [
@@ -162,7 +163,7 @@ const handleVisible = async () => {
   await formRef.value?.resetFields();
   emits('update:visible', false);
 };
-watch(uploadForm.file, () => {
+watch(uploadForm, () => {
   uploadForm.title = uploadForm.file.title;
 }, {
   deep: true

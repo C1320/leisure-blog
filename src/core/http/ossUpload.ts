@@ -41,5 +41,5 @@ export const ossUpload = async (file: File, progressCb: Function, success: Funct
     },
     partSize: 2 * 1024 * 1024
   });
-  success((res.res as any).requestUrls[0], file.name);
+  success((res.res as any).requestUrls[0], file.name.split('.')[0]);
 };
