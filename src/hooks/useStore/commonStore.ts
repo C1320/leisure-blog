@@ -15,13 +15,17 @@ import { setStoreId } from '@/core/plugins/helper';
 export const useCommon = defineStore(setStoreId('common'), {
   state: () => {
     return {
-      isExpand: true,
-      breadcrumbList: [] as RouteLocationNormalized[]
+      isExpand: false,
+      breadcrumbList: [] as RouteLocationNormalized[],
+      isMobile: false
     };
   },
   actions: {
-    setExpandState() {
-      this.isExpand = !this.isExpand;
+    setExpandState(v:boolean) {
+      this.isExpand = v;
+    },
+    setIsMobileState(v:boolean) {
+      this.isMobile = v;
     },
     // 设置面包屑列表
     setBreadcrumbList(router: RouteLocationNormalized) {

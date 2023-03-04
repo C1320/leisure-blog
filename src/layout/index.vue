@@ -11,7 +11,10 @@
     <!--    </el-scrollbar>-->
 
     <el-container style="height: 100%">
-      <el-header id="page-header">
+      <el-header
+        id="page-header"
+        class="page-header"
+      >
         <co-header />
       </el-header>
       <co-main />
@@ -23,22 +26,32 @@
 // import { computed } from 'vue';
 
 // import CoMenu from './co-aside/index.vue';
-import { onMounted } from 'vue';
+import { useEventListener } from '@vueuse/core';
+import { onBeforeMount, onMounted } from 'vue';
 
 import { userInfo } from '@/api';
-import { useUserAccountStore } from '@/hooks';
+import { useCommon, useUserAccountStore } from '@/hooks';
 
 import CoHeader from './co-header/header.vue';
 import CoMain from './co-main/index.vue';
 
 const userAccountStore = useUserAccountStore();
+const useCommonStore = useCommon();
 // const isExpand = computed(() => useCommonStore.isExpand);
 const getUserInfo = async () => {
   const res = await userInfo();
   userAccountStore.setUserInfo({ ...res, isLogin: true });
 };
+const handleResize = () => {
+  useCommonStore.setIsMobileState(document.body.clientWidth < 992);
+};
+
 onMounted(() => {
   getUserInfo();
+});
+onBeforeMount(() => {
+  handleResize();
+  useEventListener(window, 'resize', handleResize);
 });
 </script>
 
