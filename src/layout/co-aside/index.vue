@@ -15,7 +15,7 @@
     </div>
     <el-divider border-style="dotted" />
     <el-menu
-      :default-openeds="['/index']"
+      :default-active="'/index'"
       class="el-menu-vertical"
       router
     >
