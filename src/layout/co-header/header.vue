@@ -17,7 +17,9 @@
     direction="ltr"
     size="50%"
     :before-close="handleBeforeClose"
-  />
+  >
+    <co-aside />
+  </el-drawer>
 </template>
 
 <script setup lang='ts'>
@@ -26,6 +28,7 @@ import { computed } from 'vue';
 
 import { useCommon } from '@/hooks';
 
+import CoAside from '../co-aside/index.vue';
 import MyMenu from './menu.vue';
 
 const useCommonStore = useCommon();
