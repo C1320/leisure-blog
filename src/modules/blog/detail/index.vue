@@ -6,11 +6,13 @@
           :title-list="titleList"
           @title-click="handleAnchor"
         />
-        <v-md-preview
+        <!--        <div class="vuepress-markdown-body">-->
+
+        <!--        </div>-->
+        <div
           ref="previewRef"
-          v-lineNumber
-          :text="html"
           @image-click="handlePreviewImage"
+          v-html="html"
         />
       </div>
     </template>
@@ -18,7 +20,7 @@
 </template>
 
 <script setup lang='ts'>
-import 'highlight.js/styles/gradient-light.css';
+import 'highlight.js/styles/vs2015.css';
 import './style.scss';
 
 import { ElMessage } from 'element-plus';
@@ -58,13 +60,13 @@ const titleList = ref<any>([]);
 const initToc = () => {
   nextTick(() => {
     // 获取所有的标题
-    const anchors = previewRef.value.$el.querySelectorAll('h1,h2,h3');
+    const anchors = previewRef.value.querySelectorAll('h1,h2,h3');
     const titleS = Array.from(anchors).filter(title => !!(title as any).innerText.trim());
     const hTags = Array.from(new Set(titleS.map((title: any) => title.tagName))).sort();
     titleList.value = titleS.map((el:any) => ({
       title: el.innerText,
       lineIndex: el.getAttribute('data-v-md-line'),
-      id: el.innerText,
+      id: el.getAttribute('id'),
       indent: hTags.indexOf(el.tagName)
     }));
     console.log(123, titleList.value);
@@ -88,7 +90,9 @@ const initToc = () => {
 };
 
 const handleAnchor = (anchor:any) => {
+  console.log(anchor);
   const anchorElement = document.getElementById(anchor.id);
+  console.log({ anchorElement });
   if (anchorElement) {
     anchorElement.scrollIntoView();
   }
