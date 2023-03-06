@@ -118,7 +118,7 @@ const handlePreviewImage = (e: any) => {
     const imageEls = Array.from(previewRef.value.querySelectorAll('img'));
     const urlList = imageEls.map((el: any) => el.getAttribute('src')).filter(s => s);
     const index = imageEls.indexOf(target);
-    preview(urlList[index], urlList, index);
+    preview(urlList[index]);
   }
 };
 handleGetMd();

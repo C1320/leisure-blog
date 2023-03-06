@@ -1,22 +1,24 @@
 <template>
   <div class="navigation">
-    <div
-      id="co-per"
-      class="navigation-content"
-    >
+    <el-scrollbar>
       <div
-        v-for="(anchor, index) in props.titleList"
-        :key="index + 'art'"
-        :style="{ padding: `10px 0 10px ${(anchor as any).indent * 10}px` }"
+        id="co-per"
+        class="navigation-content"
       >
-        <a
-          style="cursor: pointer; color: black; margin-left: 20px"
-          @click="handleAnchorClick(anchor)"
-        >{{
-          (anchor as any).title
-        }}</a>
+        <div
+          v-for="(anchor, index) in props.titleList"
+          :key="index + 'art'"
+          :style="{ padding: `10px 0 10px ${(anchor as any).indent * 10}px` }"
+        >
+          <a
+            style="cursor: pointer; color: black; margin-left: 20px"
+            @click="handleAnchorClick(anchor)"
+          >{{
+            (anchor as any).title
+          }}</a>
+        </div>
       </div>
-    </div>
+    </el-scrollbar>
   </div>
 </template>
 
