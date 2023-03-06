@@ -8,13 +8,13 @@
         <div
           v-for="(anchor, index) in props.titleList"
           :key="index + 'art'"
-          :style="{ padding: `10px 0 10px ${(anchor as any).indent * 10}px` }"
+          :style="{ padding: `10px 0 10px ${anchor.indent * 10}px` }"
         >
           <a
             style="cursor: pointer; color: black; margin-left: 20px"
             @click="handleAnchorClick(anchor)"
           >{{
-            (anchor as any).title
+            anchor.title
           }}</a>
         </div>
       </div>
