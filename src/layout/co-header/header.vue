@@ -3,14 +3,40 @@
   <div
     v-else
     style="display: flex;align-items: center;height: 100%"
-    @click="useCommonStore.setExpandState(true)"
   >
-    <el-icon
-      size="1.25rem"
+    <div
+      @click="useCommonStore.setExpandState(true)"
     >
-      <expand />
-    </el-icon>
+      <el-icon
+        size="1.25rem"
+      >
+        <expand />
+      </el-icon>
+    </div>
+    <img
+      class="logo-image"
+      src="https://s3.bmp.ovh/imgs/2022/12/21/0aedf538ece60a2f.png"
+      alt=""
+      style="padding-left: 0.8rem"
+    >
+    <div style="height: var(--el-header-height);display: flex;align-items: center; padding-left: 0.8rem">
+      <el-select
+        multiple
+        filterable
+        size="default"
+        remote
+        reserve-keyword
+        placeholder="内容搜索"
+      >
+        <template #prefix>
+          <el-icon>
+            <search />
+          </el-icon>
+        </template>
+      </el-select>
+    </div>
   </div>
+
   <el-drawer
     v-model="ExpandDrawer"
     :append-to-body="true"
@@ -23,7 +49,7 @@
 </template>
 
 <script setup lang='ts'>
-import { Expand } from '@element-plus/icons-vue';
+import { Expand, Search } from '@element-plus/icons-vue';
 import { computed } from 'vue';
 
 import { useCommon } from '@/hooks';

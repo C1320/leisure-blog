@@ -56,6 +56,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang='scss'>
+:deep(.el-main){
+  padding: 0!important;
+}
 #co-footer {
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.12);
 }

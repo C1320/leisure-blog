@@ -8,9 +8,32 @@
     @select="handleSelect"
   >
     <el-menu-item>
-      LOGO
+      <img
+        class="logo-image"
+        src="https://s3.bmp.ovh/imgs/2022/12/21/0aedf538ece60a2f.png"
+        alt=""
+      >
     </el-menu-item>
     <div class="flex-grow" />
+    <el-menu-item
+      index=""
+      style="height: var(--el-header-height);"
+    >
+      <el-select
+        multiple
+        filterable
+        size="default"
+        remote
+        reserve-keyword
+        placeholder="内容搜索"
+      >
+        <template #prefix>
+          <el-icon>
+            <search />
+          </el-icon>
+        </template>
+      </el-select>
+    </el-menu-item>
     <el-menu-item index="/index">
       <el-icon>
         <i
@@ -119,6 +142,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
 import { ref } from 'vue';
 
 import { handleLogout } from '@/layout/co-header/handle';
