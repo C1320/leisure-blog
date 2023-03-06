@@ -3,6 +3,11 @@
   margin: 0 auto;
   padding: 2rem 2.5rem;
 }
+@media screen and (max-width: 992px){
+  .passage {
+    max-width: 100%;
+  }
+}
 .passage h1 {
   position:relative;
   padding-left :0.8rem;

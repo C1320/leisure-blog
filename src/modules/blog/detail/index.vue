@@ -11,7 +11,7 @@
         <!--        </div>-->
         <div
           ref="previewRef"
-          @image-click="handlePreviewImage"
+          @click="handlePreviewImage"
           v-html="html"
         />
       </div>
@@ -110,9 +110,16 @@ const handleGetMd = async () => {
     ElMessage.error('失败');
   });
 };
-const handlePreviewImage = (urlList: string[], index: number) => {
-  console.log(index);
-  preview(urlList[index], urlList, index);
+const handlePreviewImage = (e: any) => {
+  const { target } = e;
+  if (target.tagName === 'IMG') {
+    const src = target.getAttribute('src');
+    if (!src) return;
+    const imageEls = Array.from(previewRef.value.querySelectorAll('img'));
+    const urlList = imageEls.map((el: any) => el.getAttribute('src')).filter(s => s);
+    const index = imageEls.indexOf(target);
+    preview(urlList[index], urlList, index);
+  }
 };
 handleGetMd();
 </script>
