@@ -47,5 +47,9 @@ const handleAnchorClick = (anchor: any) => {
     --border-color: #eaecef;
     border-left: 1px solid var(--border-color);
 }
-
+@media screen and (max-width: 992px){
+  .navigation {
+    display: none;
+  }
+}
 </style>
