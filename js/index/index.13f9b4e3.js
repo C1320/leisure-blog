@@ -1,0 +1,1 @@
+import{h as s}from"./index.ae57d152.js";const a=a=>s.post({url:"user/login",data:a}),o=a=>s.post({url:"user/registry",data:a}),r=()=>s.get({url:"user/info",isLoading:!1}),t=()=>s.get({url:"user/logout"}),u=a=>s.post({url:"blog/upload",data:a});export{r as a,a as b,o as c,u as d,t as u};
