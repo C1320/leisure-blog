@@ -44,6 +44,9 @@ const getUserInfo = async () => {
 };
 const handleResize = () => {
   useCommonStore.setIsMobileState(document.body.clientWidth < 992);
+  if (useCommonStore.isExpand && document.body.clientWidth > 992) {
+    useCommonStore.setExpandState(false);
+  }
 };
 
 onMounted(() => {
