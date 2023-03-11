@@ -28,7 +28,6 @@
 
 <script lang="ts" setup>
 import { formatDate, useNamespace } from '@co/utils';
-import { defineOptions } from 'unplugin-vue-define-options/macros';
 import { PropType } from 'vue';
 
 import { Blog } from '@/modules/blog/api/type';

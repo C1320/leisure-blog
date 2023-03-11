@@ -10,7 +10,7 @@ import { defineConfig } from 'vite';
 import eslintPlugin from 'vite-plugin-eslint';
 
 export default defineConfig({
-  base: '/blog-page/', // 发布GitHub需要与https://<USERNAME>.github.io/<REPO>一致
+  // base: '/', // 发布GitHub需要与https://<USERNAME>.github.io/<REPO>一致
   plugins: [vue(),
     DefineOptions(),
     eslintPlugin({
