@@ -1,0 +1,5 @@
+@import "var";
+@import "bass";
+@mixin set-max-screen-width ($w:50%){
+  $co-width: $w;
+}

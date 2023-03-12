@@ -31,10 +31,11 @@ export default [
         // component: () => import('./view/list/app-page.vue')
       },
       {
-        path: '/bb',
-        component: () => import('@/components/HelloWorld.vue'),
+        path: '/management/config',
+        component: () => import('@/modules/system/config-management/index.vue'),
         meta: {
-          title: '测试bb'
+          title: '配置',
+          requiresAuth: true
         }
         // component: () => import('./view/list/app-page.vue')
       }
