@@ -1,8 +1,77 @@
-:root {
-  --box-shadow: 0 1px 8px 0 rgba(0,0,0,.1);
-  --background-color: #fff;
-  --text-color: #242424;
-  --text-color-sub: #7F7F7F;
-  --box-shadow-hover: 0 2px 16px 0 rgba(0, 0, 0, 0.2);
-  --co-width: 50%;
-}
+$font-color-gray:rgb(147,147,147);
+$max-height: 100%;
+$max-width: 100%;
+$aside-min-width: 40px;
+$aside-max-width: 200px;
+$header-bg-color: rgb(80, 130, 230);
+$main-bg-color: rgb(247, 248, 252);
+$left-background-color: blanchedalmond;
+$red: red;
+$blue: blue;
+$primary:#409eff;
+$co-width: 50%;$size-1: var(--co-size-1);
+
+$size-2: var(--co-size-2);
+$size-3: var(--co-size-3);
+$size-4: var(--co-size-4);
+$size-5: var(--co-size-5);
+$size-6: var(--co-size-6);
+$size-7: var(--co-size-7);
+$size-8: var(--co-size-8);
+$size-9: var(--co-size-9);
+$size-10: var(--co-size-10);
+$size-11: var(--co-size-11);
+$size-12: var(--co-size-12);
+$size-13: var(--co-size-13);
+$size-14: var(--co-size-14);
+$size-15: var(--co-size-15);
+$size-16: var(--co-size-16);
+
+// component 组件尺寸高度相关 token
+$comp-size-xxxs: var(--co-comp-size-xxxs);
+$comp-size-xxs: var(--co-comp-size-xxs);
+$comp-size-xs: var(--co-comp-size-xs);
+$comp-size-s: var(--co-comp-size-s);
+$comp-size-m: var(--co-comp-size-m);
+$comp-size-l: var(--co-comp-size-l);
+$comp-size-xl: var(--co-comp-size-xl);
+$comp-size-xxl: var(--co-comp-size-xxl);
+$comp-size-xxxl: var(--co-comp-size-xxxl);
+$comp-size-xxxxl: var(--co-comp-size-xxxxl);
+$comp-size-xxxxxl: var(--co-comp-size-xxxxxl);
+
+// popup 弹出层整体边距 token
+$pop-padding-s: var(--co-pop-padding-s);
+$pop-padding-m: var(--co-pop-padding-m);
+$pop-padding-l: var(--co-pop-padding-l);
+$pop-padding-xl: var(--co-pop-padding-xl);
+$pop-padding-xxl: var(--co-pop-padding-xxl);
+
+// component 组件左右边距 token
+$comp-paddingLR-xxs: var(--co-comp-paddingLR-xxs);
+$comp-paddingLR-xs: var(--co-comp-paddingLR-xs);
+$comp-paddingLR-s: var(--co-comp-paddingLR-s);
+$comp-paddingLR-m: var(--co-comp-paddingLR-m);
+$comp-paddingLR-l: var(--co-comp-paddingLR-l);
+$comp-paddingLR-xl: var(--co-comp-paddingLR-xl);
+$comp-paddingLR-xxl: var(--co-comp-paddingLR-xxl);
+
+// component 组件上下边距 token
+$comp-paddingTB-xxs: var(--co-comp-paddingTB-xxs);
+$comp-paddingTB-xs: var(--co-comp-paddingTB-xs);
+$comp-paddingTB-s: var(--co-comp-paddingTB-s);
+$comp-paddingTB-m: var(--co-comp-paddingTB-m);
+$comp-paddingTB-l: var(--co-comp-paddingTB-l);
+$comp-paddingTB-xl: var(--co-comp-paddingTB-xl);
+$comp-paddingTB-xxl: var(--co-comp-paddingTB-xxl);
+
+// component 组件间距 token
+$comp-margin-xxs: var(--co-comp-margin-xxs);
+$comp-margin-xs: var(--co-comp-margin-xs);
+$comp-margin-s: var(--co-comp-margin-s);
+$comp-margin-m: var(--co-comp-margin-m);
+$comp-margin-l: var(--co-comp-margin-l);
+$comp-margin-xl: var(--co-comp-margin-xl);
+$comp-margin-xxl: var(--co-comp-margin-xxl);
+$comp-margin-xxxl: var(--co-comp-margin-xxxl);
+$comp-margin-xxxxl: var(--co-comp-margin-xxxxl);

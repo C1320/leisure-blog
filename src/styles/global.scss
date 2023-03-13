@@ -1,37 +1,17 @@
+:root {
+  --box-shadow: 0 1px 8px 0 rgba(0,0,0,.1);
+  --background-color: #fff;
+  --text-color: #242424;
+  --text-color-sub: #7F7F7F;
+  --box-shadow-hover: 0 2px 16px 0 rgba(0, 0, 0, 0.2);
+  --co-card-max-width: 96%
+}
+root,
+:root[screen-mode="web"] {
+  --co-max-width: 80%;
 
-body,html ,#app{
-  padding: 0!important;
-  margin: 0!important;
-  width: 100% !important;
-  height: 100% !important;
 }
-
-a {
-  font-weight: 500;
-  text-decoration: none;
-}
-//body {
-//  overflow: hidden;
-//}
-.co-main {
-  position: relative;
-}
-.logo-image {
-  width: 58px;
-  height: 58px;
-}
-@media screen and (max-width: 992px){
-  .cz-affix-upload {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-}
-/* 大屏幕（大桌面显示器，大于等于 1200px） */
-@media (min-width: 992px) {
-  .cz-affix-upload {
-    position: absolute;
-    top: 50%;
-    right: 0;
-  }
+root,
+:root[screen-mode="mobile"] {
+  --co-max-width: 100%;
 }

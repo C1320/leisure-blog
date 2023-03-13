@@ -1,0 +1,68 @@
+// size/margin/padding相关 token
+:root {
+  --co-size-1: 2px;
+  --co-size-2: 4px;
+  --co-size-3: 6px;
+  --co-size-4: 8px;
+  --co-size-5: 12px;
+  --co-size-6: 16px;
+  --co-size-7: 20px;
+  --co-size-8: 24px;
+  --co-size-9: 28px;
+  --co-size-10: 32px;
+  --co-size-11: 36px;
+  --co-size-12: 40px;
+  --co-size-13: 48px;
+  --co-size-14: 56px;
+  --co-size-15: 64px;
+  --co-size-16: 72px;
+
+  //全局 component 组件尺寸高度相关 token
+  --co-comp-size-xxxs: var(--co-size-6);
+  --co-comp-size-xxs: var(--co-size-7);
+  --co-comp-size-xs: var(--co-size-8);
+  --co-comp-size-s: var(--co-size-9);
+  --co-comp-size-m: var(--co-size-10);
+  --co-comp-size-l: var(--co-size-11);
+  --co-comp-size-xl: var(--co-size-12);
+  --co-comp-size-xxl: var(--co-size-13);
+  --co-comp-size-xxxl: var(--co-size-14);
+  --co-comp-size-xxxxl: var(--co-size-15);
+  --co-comp-size-xxxxxl: var(--co-size-16);
+
+  //全局 popup 弹出层整体边距 token
+  --co-pop-padding-s: var(--co-size-2);
+  --co-pop-padding-m: var(--co-size-3);
+  --co-pop-padding-l: var(--co-size-4);
+  --co-pop-padding-xl: var(--co-size-5);
+  --co-pop-padding-xxl: var(--co-size-6);
+
+  //全局 component 组件左右边距 token
+  --co-comp-paddingLR-xxs: var(--co-size-1);
+  --co-comp-paddingLR-xs: var(--co-size-2);
+  --co-comp-paddingLR-s: var(--co-size-4);
+  --co-comp-paddingLR-m: var(--co-size-5);
+  --co-comp-paddingLR-l: var(--co-size-6);
+  --co-comp-paddingLR-xl: var(--co-size-8);
+  --co-comp-paddingLR-xxl: var(--co-size-10);
+
+  //全局 component 组件上下边距 token
+  --co-comp-paddingTB-xxs: var(--co-size-1);
+  --co-comp-paddingTB-xs: var(--co-size-2);
+  --co-comp-paddingTB-s: var(--co-size-4);
+  --co-comp-paddingTB-m: var(--co-size-5);
+  --co-comp-paddingTB-l: var(--co-size-6);
+  --co-comp-paddingTB-xl: var(--co-size-8);
+  --co-comp-paddingTB-xxl: var(--co-size-10);
+
+  //全局 component 组件间距 token
+  --co-comp-margin-xxs: var(--co-size-1);
+  --co-comp-margin-xs: var(--co-size-2);
+  --co-comp-margin-s: var(--co-size-4);
+  --co-comp-margin-m: var(--co-size-5);
+  --co-comp-margin-l: var(--co-size-6);
+  --co-comp-margin-xl: var(--co-size-7);
+  --co-comp-margin-xxl: var(--co-size-8);
+  --co-comp-margin-xxxl: var(--co-size-10);
+  --co-comp-margin-xxxxl: var(--co-size-12);
+}

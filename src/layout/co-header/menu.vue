@@ -1,10 +1,11 @@
 <template>
   <el-menu
-    :default-active="activeIndex"
+    :default-active="activeMenu"
     class="el-menu-demo"
     mode="horizontal"
     :ellipsis="false"
     router
+    unique-opened
     @select="handleSelect"
   >
     <el-menu-item>
@@ -35,67 +36,6 @@
       </el-select>
     </el-menu-item>
     <menu-item :menu-list="menuList" />
-    <!--    <el-menu-item index="/index">-->
-    <!--      <el-icon>-->
-    <!--        <i-->
-    <!--          class="cz-icon icon-shouye"-->
-    <!--          style="font-size: 18px"-->
-    <!--        />-->
-    <!--      </el-icon>-->
-    <!--      <span>首页</span>-->
-    <!--    </el-menu-item>-->
-    <!--    <el-menu-item index="3">-->
-    <!--      <el-icon>-->
-    <!--        <i-->
-    <!--          class="cz-icon icon-wendang"-->
-    <!--          style="font-size: 18px"-->
-    <!--        />-->
-    <!--      </el-icon>-->
-    <!--      <span>文档</span>-->
-    <!--    </el-menu-item>-->
-    <!--    <el-sub-menu index="2">-->
-    <!--      <template #title>-->
-    <!--        <el-icon>-->
-    <!--          <i-->
-    <!--            class="cz-icon icon-biji1"-->
-    <!--            style="font-size: 18px"-->
-    <!--          />-->
-    <!--        </el-icon>-->
-    <!--        笔记-->
-    <!--      </template>-->
-    <!--      <el-menu-item index="2-1">-->
-    <!--        item one-->
-    <!--      </el-menu-item>-->
-    <!--      <el-menu-item index="2-2">-->
-    <!--        item two-->
-    <!--      </el-menu-item>-->
-    <!--      <el-menu-item index="2-3">-->
-    <!--        item three-->
-    <!--      </el-menu-item>-->
-    <!--      <el-sub-menu index="2-4">-->
-    <!--        <template #title>-->
-    <!--          item four-->
-    <!--        </template>-->
-    <!--        <el-menu-item index="2-4-1">-->
-    <!--          item one-->
-    <!--        </el-menu-item>-->
-    <!--        <el-menu-item index="2-4-2">-->
-    <!--          item two-->
-    <!--        </el-menu-item>-->
-    <!--        <el-menu-item index="2-4-3">-->
-    <!--          item three-->
-    <!--        </el-menu-item>-->
-    <!--      </el-sub-menu>-->
-    <!--    </el-sub-menu>-->
-    <!--    <el-menu-item index="4">-->
-    <!--      <el-icon>-->
-    <!--        <i-->
-    <!--          class="cz-icon icon-shijian"-->
-    <!--          style="font-size: 18px"-->
-    <!--        />-->
-    <!--      </el-icon>-->
-    <!--      <span>时间线</span>-->
-    <!--    </el-menu-item>-->
     <el-sub-menu index="">
       <template #title>
         <el-avatar
@@ -144,16 +84,26 @@
 
 <script lang="ts" setup>
 import { Search } from '@element-plus/icons-vue';
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { handleLogout } from '@/layout/co-header/handle';
-import { menuList } from '@/layout/co-header/menu';
 import MenuItem from '@/layout/co-header/menu-item.vue';
+import { menuList } from '@/layout/co-header/menuRoutes';
 
-const activeIndex = ref('/index');
+const route = useRoute();
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
+const activeMenu: any = computed(() => {
+  const { meta, path } = route;
+  // if set path, the sidebar will highlight the path you set
+  if (meta.activeMenu) {
+    return meta.activeMenu;
+  }
+  console.log(path);
+  return path;
+});
 </script>
 
 <style>

@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import '@/styles/global.scss';
+import '@/styles/bass.scss';
 import '@kangc/v-md-editor/lib/style/preview.css';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import 'element-plus/dist/index.css';

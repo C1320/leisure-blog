@@ -47,6 +47,7 @@ const handleResize = () => {
   if (useCommonStore.isExpand && document.body.clientWidth > 992) {
     useCommonStore.setExpandState(false);
   }
+  document.documentElement.setAttribute('screen-mode', document.body.clientWidth < 992 ? 'mobile' : 'web');
 };
 
 onMounted(() => {

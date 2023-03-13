@@ -41,7 +41,7 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
 
-import { IMenu } from '@/layout/co-header/menu';
+import { IMenu } from '@/layout/co-header/menuRoutes';
 
 defineOptions({
   name: 'menuItem'

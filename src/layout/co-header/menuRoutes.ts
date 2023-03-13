@@ -10,7 +10,7 @@ export interface IMenu {
 export const menuList:IMenu[] = [
   {
     id: 1,
-    path: '/',
+    path: '/index',
     name: 'Home',
     label: '首页',
     icon: 'icon-shouye',

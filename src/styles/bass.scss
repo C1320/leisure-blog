@@ -1,12 +1,29 @@
-$font-color-gray:rgb(147,147,147);
-$max-height: 100%;
-$max-width: 100%;
-$aside-min-width: 40px;
-$aside-max-width: 200px;
-$header-bg-color: rgb(80, 130, 230);
-$main-bg-color: rgb(247, 248, 252);
-$left-background-color: blanchedalmond;
-$red: red;
-$blue: blue;
-$primary:#409eff;
-$co-width: 50%;
+body,html ,#app{
+  padding: 0!important;
+  margin: 0!important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.co-main {
+  position: relative;
+}
+.logo-image {
+  width: 58px;
+  height: 58px;
+}
+
+@media screen and (max-width: 992px){
+  .cz-affix-upload {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}
+/* 大屏幕（大桌面显示器，大于等于 1200px） */
+@media (min-width: 992px) {
+  .cz-affix-upload {
+    position: absolute;
+    top: 50%;
+    right: 0;
+  }
+}
