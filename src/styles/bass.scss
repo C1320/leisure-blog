@@ -4,6 +4,9 @@ body,html ,#app{
   width: 100% !important;
   height: 100% !important;
 }
+html, .nprogress-busy {
+  overflow: hidden;
+}
 .co-main {
   position: relative;
 }

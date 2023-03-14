@@ -8,6 +8,7 @@
       <slot name="Header" />
     </el-header>
     <el-main
+      v-show="$slots.Main"
       id="co-main"
       class="co-main"
     >
@@ -25,6 +26,12 @@
     >
       <slot name="Footer" />
     </el-footer>
+    <el-scrollbar
+      v-if="$slots.default"
+      :height="handleMainHeight"
+    >
+      <slot v-if="$slots.default" />
+    </el-scrollbar>
   </div>
 </template>
 
@@ -41,7 +48,7 @@ const handleHeight = () => {
   const pageHeaderHeight = document.getElementById('page-header')?.offsetHeight || 0;
   headerHeight.value = document.getElementById('co-header')?.offsetHeight || 0;
   footerHeight.value = document.getElementById('co-footer')?.offsetHeight || 0;
-  mainHeight.value = height.value - headerHeight.value - footerHeight.value - 45 - pageHeaderHeight;
+  mainHeight.value = height.value - headerHeight.value - footerHeight.value - 10 - pageHeaderHeight;
 };
 const handleMainHeight = computed(() => mainHeight.value);
 onMounted(() => {
@@ -58,6 +65,7 @@ onUnmounted(() => {
 <style scoped lang='scss'>
 :deep(.el-main){
   padding: 0!important;
+  margin: 0!important;
 }
 #co-footer {
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.12);

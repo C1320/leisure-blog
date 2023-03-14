@@ -1,11 +1,9 @@
 <template>
   <app-page>
-    <template #Main>
-      <v-form-designer
-        :option-data="optionData"
-        :designer-config="designerConfig"
-      />
-    </template>
+    <v-form-designer
+      :option-data="optionData"
+      :designer-config="designerConfig"
+    />
   </app-page>
 </template>
 
