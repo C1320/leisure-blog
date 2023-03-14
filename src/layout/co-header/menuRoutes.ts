@@ -89,6 +89,14 @@ export const menuList:IMenu[] = [
         children: []
       },
       {
+        id: 43,
+        path: '/management/code',
+        name: 'ManagementCode',
+        label: '代码生成',
+        icon: 'icon-biji',
+        children: []
+      },
+      {
         id: 44,
         path: '/management/config',
         name: 'ManagementConfig',

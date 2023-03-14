@@ -38,6 +38,15 @@ export default [
           requiresAuth: true
         }
         // component: () => import('./view/list/app-page.vue')
+      },
+      {
+        path: '/management/code',
+        component: () => import('@/modules/system/code/index.vue'),
+        meta: {
+          title: '代码生成',
+          requiresAuth: true
+        }
+        // component: () => import('./view/list/app-page.vue')
       }
     ]
   }

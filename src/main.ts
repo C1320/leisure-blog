@@ -3,6 +3,7 @@ import '@/styles/bass.scss';
 import '@kangc/v-md-editor/lib/style/preview.css';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import 'element-plus/dist/index.css';
+import 'vform3-builds/dist/designer.style.css';
 
 import highlightPlugin from '@highlightjs/vue-plugin';
 // @ts-ignore
@@ -13,6 +14,8 @@ import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import githubTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import ElementPlus from 'element-plus';
 import highlight from 'highlight.js';
+// @ts-ignore
+import VForm3 from 'vform3-builds';
 import { createApp } from 'vue';
 
 import { setHighlightDirective } from '@/directive/md';
@@ -34,4 +37,5 @@ app
   .use(usePa)
   .use(VMdPreview)
   .use(highlightPlugin)
+  .use(VForm3)
   .mount('#app');

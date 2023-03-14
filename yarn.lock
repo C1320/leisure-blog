@@ -12875,6 +12875,11 @@
     "core-util-is" "1.0.2"
     "extsprintf" "^1.2.0"
 
+"vform3-builds@^3.0.10":
+  "integrity" "sha512-sULNk72Z6NG94X9MMgpBwinaIOYjtl7Bn5jZbV9iZaglSYr2SHm/wpXPAjl8F8OW6SzOOJgIpRek+NvOvN7wsg=="
+  "resolved" "https://registry.npmmirror.com/vform3-builds/-/vform3-builds-3.0.10.tgz"
+  "version" "3.0.10"
+
 "vite-plugin-eslint@^1.8.1":
   "integrity" "sha512-PqdMf3Y2fLO9FsNPmMX+//2BF5SF8nEWspZdgl4kSt7UvHDRHVVfHvxsD7ULYzZrJDGRxR81Nq7TOFgwMnUang=="
   "resolved" "https://registry.npmmirror.com/vite-plugin-eslint/-/vite-plugin-eslint-1.8.1.tgz"
