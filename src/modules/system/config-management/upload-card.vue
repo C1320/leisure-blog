@@ -22,17 +22,15 @@
         </div>
       </div>
     </template>
-    <div
-      v-for="o in 4"
-      :key="o"
-      class="text item"
-    >
-      {{ 'List item ' + o }}
+    <div class="text item">
+      <form-config />
     </div>
   </el-card>
 </template>
 
 <script setup lang='ts'>
+
+import FormConfig from '@/modules/system/config-management/form-config.vue';
 
 defineOptions({
   name: 'uploadCard'
