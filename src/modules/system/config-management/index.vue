@@ -4,7 +4,7 @@
       <div class="co-config">
         <el-tabs type="border-card">
           <el-tab-pane label="上传配置">
-            <upload-card />
+            <upload-card-config />
           </el-tab-pane>
           <el-tab-pane label="系统配置">
             暂未实现
@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 
 import AppPage from '@/components/app-page/app-page.vue';
-import UploadCard from '@/modules/system/config-management/upload-card.vue';
+import UploadCardConfig from '@/modules/system/config-management/upload-card-config.vue';
 </script>
 
 <style scoped lang=scss>
